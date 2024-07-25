@@ -12,8 +12,8 @@ async function getPeople(file) {
         viewButton.appendChild(document.createTextNode("View"));
         const viewUrl = new URL("http://127.0.0.1:8080/edit-person.html");
         viewUrl.searchParams.append("id", json[i].Id)
-        viewUrl.searchParams.append("companyName", json[i].FirstName)
-        viewUrl.searchParams.append("town", json[i].Surname)
+        viewUrl.searchParams.append("firstName", json[i].FirstName)
+        viewUrl.searchParams.append("surname", json[i].Surname)
         viewUrl.searchParams.append("editable", false)
         viewButton.href = viewUrl
         viewButton.classList.add("btn");
