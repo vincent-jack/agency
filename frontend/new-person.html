@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <title>New Person</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+
+<body style="height: 100%;">
+<table style="height: 100%;">
+    <tr>
+        <th>
+            <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px; height: 100%;">
+                <span class="fs-4 d-flex align-items-center mb-3 text-white text-decoration-none">
+                    Agency
+                </span>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link text-white" aria-current="page">
+                            <img src="/images/home-icon.png" width="30px">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="companies.html" class="nav-link text-white">
+                            <img src="/images/companies-icon.png" width="30px">
+                            Companies
+                        </a>
+                    </li>
+                    <li>
+                        <a href="people.html" class="nav-link text-white">
+                            <img src="/images/people-icon.png" width="30px">
+                            People
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+        </th>
+
+        <th>
+            <h1>New Person</h1>
+            <hr>
+            <form id="newPersonForm">
+                <div class="mb-3" style="margin-top: 30px;">
+                    <label for="firstName" class="form-label"><h5>First Name</h5></label>
+                    <input class="form-control border border-primary" id="firstName">
+                </div>
+                <div class="mb-3">
+                    <label for="surname" class="form-label"><h5>Surname</h5></label>
+                    <input class="form-control border border-primary" id="surname">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input border border-primary" id="checkSave">
+                    <label class="form-check-label" for="checkSave"><h6>Stay on this page after save</h6></label>
+                </div>
+                <button type="button" class="btn btn-primary" style="width: 200px;" id="submitButton">Save</button>
+            </form>
+        </th>
+    </tr>
+</table>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="successToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
+      <div class="toast-header bg-success">
+        <strong class="me-auto text-white">Success</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Your new person was created.
+      </div>
+    </div>
+</div>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="incorrectToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
+      <div class="toast-header bg-danger">
+        <strong class="me-auto text-white">Incorrect data</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Fields cannot be left empty and the characters ' and " cannot be used.
+      </div>
+    </div>
+</div>
+
+<script src="new-person.js"></script>
+</body>
+</html>
