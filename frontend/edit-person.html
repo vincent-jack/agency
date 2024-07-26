@@ -44,21 +44,17 @@
         <th>
             <h1 id="pageTitle">Edit Person</h1>
             <hr>
-            <form id="newCompanyForm">
+            <div id="newPersonForm">
                 <div class="mb-3" style="margin-top: 30px;">
-                    <label for="companyName" class="form-label"><h5>First Name</h5></label>
+                    <label for="firstName" class="form-label"><h5>First Name</h5></label>
                     <input class="form-control border border-primary" id="firstName">
                 </div>
-                <div class="mb-3">
-                    <label for="town" class="form-label"><h5>Surname</h5></label>
+                <div class="mb-5">
+                    <label for="surname" class="form-label"><h5>Surname</h5></label>
                     <input class="form-control border border-primary" id="surname">
                 </div>
-                <div class="mb-3 form-check" id="checkDiv">
-                    <input type="checkbox" class="form-check-input border border-primary" id="checkSave">
-                    <label class="form-check-label" for="checkSave"><h6>Stay on this page after save</h6></label>
-                </div>
 
-                <table class="table table-striped">
+                <table class="table table-striped mb-3">
                     <tbody id="data-table">
                         <tr><h3>Companies</h3></tr>
                         <hr>
@@ -71,8 +67,21 @@
                     </tbody>
                 </table>
 
+                <div class="dropdown" id="addDropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle mb-5" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Add Company
+                    </button>
+                    <ul class="dropdown-menu" id="companiesDropdown">
+                    </ul>
+                  </div>
+
+                <div class="mb-3 form-check" id="checkDiv">
+                    <input type="checkbox" class="form-check-input border border-primary" id="checkSave">
+                    <label class="form-check-label" for="checkSave"><h6>Stay on this page after save</h6></label>
+                </div>
+
                 <button type="button" class="btn btn-primary" style="width: 200px;" id="submitButton">Save</button>
-            </form>
+            </div>
         </th>
     </tr>
 </table>

@@ -6,6 +6,17 @@ document.getElementById('town').value = urlParams.get('town');
 const editable = (urlParams.get('editable') === 'true')
 const companyPeopleList = []
 
+if (editable == false) {
+    document.getElementById('checkDiv').style.display = "none";
+    document.getElementById('submitButton').style.display = "none";
+    document.getElementById('companyName').disabled = true;
+    document.getElementById('town').disabled = true;
+    document.getElementById('pageTitle').innerHTML = "View Company"
+    document.getElementById('addDropdown').style.display = "none";
+}
+
+getPeople("http://127.0.0.1:5000/people");
+
 
 function addRow(personId, firstName, surname) {
     const table = document.getElementById("data-table");
@@ -13,12 +24,16 @@ function addRow(personId, firstName, surname) {
     row.id = "personRow" + personId
 
     const removeCol = document.createElement("th");
-    const removeButton = document.createElement("button");
-    removeButton.appendChild(document.createTextNode("Remove"));
-    removeButton.classList.add("btn");
-    removeButton.classList.add("btn-danger");
-    removeButton.setAttribute('onclick', 'removePerson(' + personId + ', "' + firstName + '", "' + surname + '")')
-    removeCol.appendChild(removeButton);
+    
+    if (editable == true) {
+        const removeButton = document.createElement("button");
+        removeButton.appendChild(document.createTextNode("Remove"));
+        removeButton.classList.add("remove-button");
+        removeButton.classList.add("btn");
+        removeButton.classList.add("btn-danger");
+        removeButton.setAttribute('onclick', 'removePerson(' + personId + ', "' + firstName + '", "' + surname + '")')
+        removeCol.appendChild(removeButton);
+    }
 
     const idCol = document.createElement("th");
     idCol.appendChild(document.createTextNode(personId));
@@ -48,22 +63,12 @@ function addListItem(personId, firstName, surname) {
 }
 
 
-getPeople("http://127.0.0.1:5000/people");
-
 async function getPeople(file) {
     const response = await fetch(file);
     const json = await response.json();
 
     const peopleResponse = await fetch("http://127.0.0.1:5000/company-people/" + companyId);
     const peopleJson = await peopleResponse.json();
-
-    if (editable == false) {
-        document.getElementById('checkDiv').style.display = "none";
-        document.getElementById('submitButton').style.display = "none";
-        document.getElementById('companyName').disabled = true;
-        document.getElementById('town').disabled = true;
-        document.getElementById('pageTitle').innerHTML = "View Company"
-    }
 
     for (let i = 0; i < json.length; i++) {
         if (peopleJson.includes(json[i].Id) == true) {
@@ -76,9 +81,6 @@ async function getPeople(file) {
             addListItem(json[count].Id, json[count].FirstName, json[count].Surname)
         }
     }
-
-            
-    
 }
 
 
@@ -129,7 +131,6 @@ submitButton.addEventListener('click', async function (e) {
     const successToastEl = document.getElementById('successToast')
     const successToast = new bootstrap.Toast(successToastEl)
     successToast.show();
-
 });
 
 
@@ -138,6 +139,7 @@ async function addPerson(personId, firstName, surname) {
     addRow(personId, firstName, surname);
 
 }
+
 
 async function removePerson(personId, firstName, surname) {
     document.getElementById("personRow" + personId).remove();

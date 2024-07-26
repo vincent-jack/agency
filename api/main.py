@@ -163,7 +163,7 @@ def get_company_people(company_id):
 
 @app.route("/company-people/add", methods=["POST"])
 @cross_origin()
-def add_company_person():
+def add_company_people():
     company_id = request.json['company_id']
     person_id_list = request.json['id_list']
 
@@ -181,6 +181,40 @@ def add_company_person():
     except mariadb.Error as e:
         return f"Error: {e}"
     return jsonify({"CompanyId": company_id, "PeopleIdList": person_id_list})
+
+
+@app.route("/person-companies/<int:person_id>", methods=["GET"])
+@cross_origin()
+def get_person_companies(person_id):
+    try:
+        cur.execute(
+            f"SELECT CompanyId FROM CompanyPerson WHERE PersonId={person_id}")
+    except mariadb.Error as e:
+        return f"Error: {e}"
+    company_id = [column[0] for column in cur]
+    return jsonify(company_id)
+
+
+@app.route("/person-companies/add", methods=["POST"])
+@cross_origin()
+def add_person_companies():
+    person_id = request.json['person_id']
+    company_id_list = request.json['id_list']
+
+    try:
+        cur.execute(
+            f"DELETE FROM CompanyPerson WHERE PersonId={person_id}")
+    except mariadb.Error as e:
+        return f"Error: {e}"
+
+    try:
+        for company_id in company_id_list:
+            cur.execute(
+                "INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES (?, ?)",
+                (company_id, person_id))
+    except mariadb.Error as e:
+        return f"Error: {e}"
+    return jsonify({"PersonId": person_id, "CompanyIdList": company_id_list})
 
 
 if __name__ == "__main__":

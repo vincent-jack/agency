@@ -1,57 +1,90 @@
 const urlParams = new URLSearchParams(window.location.search);
-const idValue = urlParams.get('id');
+const personId = urlParams.get('id');
 
 document.getElementById('firstName').value = urlParams.get('firstName');
 document.getElementById('surname').value = urlParams.get('surname');
 const editable = (urlParams.get('editable') === 'true')
+const personCompaniesList = []
+
+if (editable == false) {
+    document.getElementById('checkDiv').style.display = "none";
+    document.getElementById('submitButton').style.display = "none";
+    document.getElementById('firstName').disabled = true;
+    document.getElementById('surname').disabled = true;
+    document.getElementById('pageTitle').innerHTML = "View Person";
+    document.getElementById('addDropdown').style.display = "none";
+}
+
+getCompanies("http://127.0.0.1:5000/companies");
+
+
+function addRow(companyId, companyName, town) {
+    const table = document.getElementById("data-table");
+    const row = document.createElement("tr");
+    row.id = "companyRow" + companyId
+
+    const removeCol = document.createElement("th");
+    if (editable == true) {
+        const removeButton = document.createElement("button");
+        removeButton.appendChild(document.createTextNode("Remove"));
+        removeButton.classList.add("btn");
+        removeButton.classList.add("btn-danger");
+        removeButton.setAttribute('onclick', 'removeCompany(' + companyId + ', "' + companyName + '", "' + town + '")')
+        removeCol.appendChild(removeButton);
+    }
+
+    const idCol = document.createElement("th");
+    idCol.appendChild(document.createTextNode(companyId));
+    idCol.classList.add("idColumn")
+    const companyNameCol = document.createElement("th");
+    companyNameCol.appendChild(document.createTextNode(companyName));
+    const townCol = document.createElement("th");
+    townCol.appendChild(document.createTextNode(town));
+
+    row.appendChild(removeCol)
+    row.appendChild(idCol);
+    row.appendChild(companyNameCol);
+    row.appendChild(townCol);
+    table.appendChild(row);
+}
+
+
+function addListItem(companyId, companyName, town) {
+    const dropdown = document.getElementById("companiesDropdown")
+
+    const addButton = document.createElement("button")
+    addButton.classList.add("dropdown-item")
+    addButton.appendChild(document.createTextNode(companyId + ": " + companyName + ", " + town))
+    addButton.setAttribute('onclick','addCompany("' + companyId + '", "' + companyName + '", "' + town + '")')
+    addButton.id = "companyListItem" + companyId
+    dropdown.appendChild(addButton)
+}
+
 
 async function getCompanies(file) {
     const response = await fetch(file);
     const json = await response.json();
 
-    const table = document.getElementById("data-table");
+    const companyResponse = await fetch("http://127.0.0.1:5000/person-companies/" + personId);
+    const companyJson = await companyResponse.json();
+
+    console.log(companyJson)
+
     for (let i = 0; i < json.length; i++) {
-        const row = document.createElement("tr");
-        const buttonCol = document.createElement("th");
-
-        if (editable == true) {
-            const addCheck = document.createElement("input");
-            addCheck.classList.add("form-check-input");
-            addCheck.classList.add("border");
-            addCheck.classList.add("border-primary");
-            addCheck.classList.add("add-person-check");
-            addCheck.setAttribute("type", "checkbox");
-            addCheck.setAttribute("value", json[i].Id);
-            buttonCol.appendChild(addCheck);
-        } else {
-            document.getElementById('checkDiv').style.display = "none";
-            document.getElementById('submitButton').style.display = "none";
-            document.getElementById('firstName').disabled = true;
-            document.getElementById('surname').disabled = true;
-            document.getElementById('pageTitle').innerHTML = "View Person"
-        }
-        row.appendChild(buttonCol);
- 
-
-        const idCol = document.createElement("th");
-        idCol.appendChild(document.createTextNode(json[i].Id));
-        const firstNameCol = document.createElement("th");
-        firstNameCol.appendChild(document.createTextNode(json[i].CompanyName));
-        const surnameCol = document.createElement("th");
-        surnameCol.appendChild(document.createTextNode(json[i].Town));
-        row.appendChild(idCol);
-        row.appendChild(firstNameCol);
-        row.appendChild(surnameCol);
-
-        table.appendChild(row);
+        if (companyJson.includes(json[i].Id) == true) {
+            addRow(json[i].Id, json[i].CompanyName, json[i].Town)
         }
     }
 
-getCompanies("http://127.0.0.1:5000/companies");
+    for (let count = 0; count < json.length; count++) {
+        if (companyJson.includes(json[count].Id) == false) {
+            addListItem(json[count].Id, json[count].CompanyName, json[count].Town)
+        }
+    }
+}
 
 
 const submitButton = document.getElementById('submitButton');
-
 submitButton.addEventListener('click', async function (e) {
     const newFirstName = document.getElementById('firstName').value
     const newSurname = document.getElementById('surname').value
@@ -69,7 +102,7 @@ submitButton.addEventListener('click', async function (e) {
         surname: newSurname,
     });
 
-    await fetch('http://127.0.0.1:5000/people/update/' + idValue, {
+    await fetch('http://127.0.0.1:5000/people/update/' + personId, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: data
@@ -78,9 +111,37 @@ submitButton.addEventListener('click', async function (e) {
         window.location.replace("http://127.0.0.1:8080/people.html");
     }
 
+    const add_id_list = []
+    const personCompaniesId = document.getElementsByClassName("idColumn");
+    for (let i = 0; i < personCompaniesId.length; i++) {
+        add_id_list.push(personCompaniesId[i].innerHTML);
+    }
+
+    const personCompaniesData = JSON.stringify({
+        person_id: personId,
+        id_list: add_id_list
+    });
+
+    await fetch('http://127.0.0.1:5000/person-companies/add', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: personCompaniesData
+    });
+
     const successToastEl = document.getElementById('successToast')
     const successToast = new bootstrap.Toast(successToastEl)
     successToast.show();
-
-
 });
+
+
+async function addCompany(companyId, companyName, town) {
+    document.getElementById("companyListItem" + companyId).remove();
+    addRow(companyId, companyName, town);
+
+}
+
+
+async function removeCompany(companyId, companyName, town) {
+    document.getElementById("companyRow" + companyId).remove();
+    addListItem(companyId, companyName, town);
+}
