@@ -73,7 +73,7 @@ def create_company():
 @cross_origin()
 def delete_company(company_id):
     delete_row(row_id=company_id, table_name="Company")
-    return jsonify({"success": True})
+    return jsonify({"Success": True})
 
 
 @app.route("/companies/update/<int:company_id>", methods=["PUT"])
@@ -98,8 +98,6 @@ def update_company(company_id):
                 (company_id, person_id))
     except mariadb.Error as e:
         return f"Error: {e}"
-
-
 
     return jsonify({"Company": new_name, "Town": new_town, "Employees": people_id})
 
@@ -134,14 +132,14 @@ def create_person():
     except mariadb.Error as e:
         return f"Error: {e}"
 
-    return f"FirstName: {first_name}, Surname: {surname}, was successfully added."
+    return jsonify({"FirstName": first_name, "Surname": surname})
 
 
 @app.route("/people/delete/<int:person_id>", methods=["DELETE"])
 @cross_origin()
 def delete_person(person_id):
     delete_row(row_id=person_id, table_name="Person")
-    return f"Person {person_id} was deleted."
+    return jsonify({"Success": True})
 
 
 @app.route("/people/update/<int:person_id>", methods=["PUT"])
@@ -156,7 +154,20 @@ def update_person(person_id):
     except mariadb.Error as e:
         return f"Error: {e}"
 
-    return f"Person {person_id} was updated to FirstName: {new_first_name}, Surname: {new_surname}."
+    return jsonify({"FirstName": new_first_name, "Surname": new_surname})
+
+
+@app.route("/company-people/<int:company_id>", methods=["GET"])
+@cross_origin()
+def get_company_people(company_id):
+    try:
+        cur.execute(
+            f"SELECT PersonId FROM CompanyPerson WHERE CompanyId={company_id}")
+    except mariadb.Error as e:
+        return f"Error: {e}"
+    people_id = [column[0] for column in cur]
+
+    return jsonify(people_id)
 
 
 if __name__ == "__main__":

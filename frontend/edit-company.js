@@ -9,6 +9,11 @@ async function getPeople(file) {
     const response = await fetch(file);
     const json = await response.json();
 
+    const employeesResponse = await fetch("http://127.0.0.1:5000/company-people/" + idValue);
+    const employeesJson = await employeesResponse.json();
+
+    console.log(employeesJson)
+
     const table = document.getElementById("data-table");
     for (let i = 0; i < json.length; i++) {
         const row = document.createElement("tr");
@@ -22,6 +27,9 @@ async function getPeople(file) {
             addCheck.classList.add("add-person-check");
             addCheck.setAttribute("type", "checkbox");
             addCheck.setAttribute("value", json[i].Id);
+            if (employeesJson.includes(json[i].Id)) {
+                addCheck.checked = true;
+            };
             buttonCol.appendChild(addCheck);
         } else {
             document.getElementById('checkDiv').style.display = "none";
@@ -56,12 +64,12 @@ submitButton.addEventListener('click', async function (e) {
     const newTown = document.getElementById('town').value
     const checkSave = document.getElementById('checkSave')
 
-    // const checkedList = document.querySelectorAll('[type="checkbox"]:checked')
-    // const checkedArr = Array.prototype.slice.call(checkedList);
-    // if (checkSave.checked == true) {
-    //     checkedArr.shift();
-    // }
-    // const companyPeopleId = checkedArr.map(a => a.value);
+    const checkedList = document.querySelectorAll('[type="checkbox"]:checked')
+    const checkedArr = Array.prototype.slice.call(checkedList);
+    if (checkSave.checked == true) {
+        checkedArr.shift();
+    }
+    const companyPeopleId = checkedArr.map(a => a.value);
 
     if (newCompanyName == "" || newTown == "" 
         || newCompanyName.includes("'") == true || newCompanyName.includes('"') == true || newTown.includes("'") == true || newTown.includes('"') == true) {
@@ -73,6 +81,7 @@ submitButton.addEventListener('click', async function (e) {
     const data = JSON.stringify({
         company_name: newCompanyName,
         town: newTown,
+        company_people_id: companyPeopleId
     });
 
     await fetch('http://127.0.0.1:5000/companies/update/' + idValue, {
