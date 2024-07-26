@@ -81,16 +81,27 @@ def delete_company(company_id):
 def update_company(company_id):
     new_name = request.json['company_name']
     new_town = request.json['town']
-    company_people = request.json['companyPeople']
-    print(new_name)
+    people_id = request.json['company_people_id']
+
     try:
         cur.execute(
             f'UPDATE Company SET CompanyName = "{new_name}", Town = "{new_town}" WHERE id = ?',
             (company_id,))
+
+        cur.execute(
+            f'DELETE FROM CompanyPerson WHERE CompanyId = ?',
+            (company_id,))
+
+        for person_id in people_id:
+            cur.execute(
+                "INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES (?, ?)",
+                (company_id, person_id))
     except mariadb.Error as e:
         return f"Error: {e}"
 
-    return jsonify({"Company": new_name, "Town": new_town, "Employees": company_people})
+
+
+    return jsonify({"Company": new_name, "Town": new_town, "Employees": people_id})
 
 
 @app.route("/people")
