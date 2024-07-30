@@ -1,0 +1,7 @@
+pip~=24.0
+attrs~=23.2.0
+wheel~=0.43.0
+tornado~=6.4.1
+Jinja2~=3.1.4
+mariadb~=1.1.10
+Flask~=2.3.2
