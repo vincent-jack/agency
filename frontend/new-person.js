@@ -28,7 +28,7 @@ submitButton.addEventListener('click', async function (e) {
         body: data
     });
     if (checkSave.checked == false) {
-        window.location.replace("http://127.0.0.1:8080/people.html");
+        window.location.replace("people.html");
     }
 
     const successToastEl = document.getElementById('successToast')

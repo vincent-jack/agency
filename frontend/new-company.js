@@ -27,7 +27,7 @@ submitButton.addEventListener('click', async function (e) {
         body: data
     });
     if (checkSave.checked == false) {
-        window.location.replace("http://127.0.0.1:8080/companies.html");
+        window.location.replace("companies.html");
     }
 
     const successToastEl = document.getElementById('successToast')

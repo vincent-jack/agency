@@ -1,35 +1,25 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
-import mariadb
+import psycopg2
 import sys
 import os
 
 try:
-    conn = mariadb.connect(
+    conn = psycopg2.connect(
         user="jackvincent",
         password=os.environ.get("USER_PASSWORD"),
         host="localhost",
-        port=3306,
-        database="Agency"
+        port=5432,
+        database="postgres"
 
     )
     conn.autocommit = True
 
-except mariadb.Error as e:
-    print(f"Error connecting to MariaDB Platform: {e}")
+except Exception as e:
+    print(f"Error connecting to Database: {e}")
     sys.exit(1)
 
 cur = conn.cursor()
-
-
-def delete_row(row_id, table_name):
-    try:
-        cur.execute(
-            f"DELETE FROM {table_name} WHERE Id = ?",
-            (row_id,))
-    except mariadb.Error as e:
-        return f"Error: {e}"
-
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -41,8 +31,9 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def companies_list():
     try:
         cur.execute(
-            "SELECT * FROM Company")
-    except mariadb.Error as e:
+            'SELECT * FROM Company')
+    except Exception as e:
+        print(e)
         return f"Error: {e}"
 
     companies = []
@@ -51,6 +42,7 @@ def companies_list():
                "CompanyName": column[1],
                "Town": column[2]}
         companies.append(row)
+
     return jsonify(companies)
 
 
@@ -61,9 +53,10 @@ def create_company():
     new_company_town = request.json['town']
     try:
         cur.execute(
-            "INSERT INTO Company (CompanyName, Town) VALUES (?, ?)",
+            "INSERT INTO Company (CompanyName, Town) VALUES (%s, %s)",
             (new_company, new_company_town))
-    except mariadb.Error as e:
+    except Exception as e:
+        print(e)
         return f"Error: {e}"
 
     return jsonify({"Company": new_company, "Town": new_company_town})
@@ -72,8 +65,16 @@ def create_company():
 @app.route("/companies/delete/<int:company_id>", methods=["DELETE"])
 @cross_origin()
 def delete_company(company_id):
-    delete_row(row_id=company_id, table_name="Company")
-    return jsonify({"Success": True})
+    try:
+        cur.execute(
+            f"DELETE FROM Company WHERE Id = {company_id}")
+        cur.execute(
+            f"DELETE FROM CompanyPerson WHERE CompanyId = {company_id}"
+        )
+    except Exception as e:
+        print(e)
+        return f"Error: {e}"
+    return "Success"
 
 
 @app.route("/companies/update/<int:company_id>", methods=["PUT"])
@@ -84,10 +85,9 @@ def update_company(company_id):
 
     try:
         cur.execute(
-            f'UPDATE Company SET CompanyName = "{new_name}", Town = "{new_town}" WHERE id = ?',
-            (company_id,))
-
-    except mariadb.Error as e:
+            f"UPDATE Company SET CompanyName = '{new_name}', Town = '{new_town}' WHERE id = {company_id}")
+    except Exception as e:
+        print(e)
         return f"Error: {e}"
 
     return jsonify({"Company": new_name, "Town": new_town})
@@ -99,7 +99,8 @@ def people_list():
     try:
         cur.execute(
             "SELECT * FROM Person")
-    except mariadb.Error as e:
+    except Exception as e:
+        print(e)
         return f"Error: {e}"
 
     people = []
@@ -118,9 +119,10 @@ def create_person():
     surname = request.json['surname']
     try:
         cur.execute(
-            "INSERT INTO Person (FirstName, Surname) VALUES (?, ?)",
+            "INSERT INTO Person (FirstName, Surname) VALUES (%s, %s)",
             (first_name, surname))
-    except mariadb.Error as e:
+    except Exception as e:
+        print(e)
         return f"Error: {e}"
 
     return jsonify({"FirstName": first_name, "Surname": surname})
@@ -129,8 +131,16 @@ def create_person():
 @app.route("/people/delete/<int:person_id>", methods=["DELETE"])
 @cross_origin()
 def delete_person(person_id):
-    delete_row(row_id=person_id, table_name="Person")
-    return jsonify({"Success": True})
+    try:
+        cur.execute(
+            f"DELETE FROM Person WHERE Id = {person_id}")
+        cur.execute(
+            f"DELETE FROM CompanyPerson WHERE PersonId = {person_id}"
+        )
+    except Exception as e:
+        print(e)
+        return f"Error: {e}"
+    return "Success"
 
 
 @app.route("/people/update/<int:person_id>", methods=["PUT"])
@@ -140,9 +150,9 @@ def update_person(person_id):
     new_surname = request.json['surname']
     try:
         cur.execute(
-            f"UPDATE Person SET FirstName = '{new_first_name}', Surname = '{new_surname}' WHERE id = ?",
-            (person_id,))
-    except mariadb.Error as e:
+            f"UPDATE Person SET FirstName = '{new_first_name}', Surname = '{new_surname}' WHERE id = {person_id}")
+    except Exception as e:
+        print(e)
         return f"Error: {e}"
 
     return jsonify({"FirstName": new_first_name, "Surname": new_surname})
@@ -153,8 +163,9 @@ def update_person(person_id):
 def get_company_people(company_id):
     try:
         cur.execute(
-            f"SELECT PersonId FROM CompanyPerson WHERE CompanyId={company_id}")
-    except mariadb.Error as e:
+            f"SELECT PersonId FROM CompanyPerson WHERE CompanyId = {company_id}")
+    except Exception as e:
+        print(e)
         return f"Error: {e}"
     people_id = [column[0] for column in cur]
 
@@ -169,16 +180,13 @@ def add_company_people():
 
     try:
         cur.execute(
-            f"DELETE FROM CompanyPerson WHERE CompanyId={company_id}")
-    except mariadb.Error as e:
-        return f"Error: {e}"
+            f"DELETE FROM CompanyPerson WHERE CompanyId = {company_id}")
 
-    try:
         for person_id in person_id_list:
             cur.execute(
-                "INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES (?, ?)",
-                (company_id, person_id))
-    except mariadb.Error as e:
+                f"INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES ({company_id}, {person_id})")
+    except Exception as e:
+        print(e)
         return f"Error: {e}"
     return jsonify({"CompanyId": company_id, "PeopleIdList": person_id_list})
 
@@ -188,8 +196,9 @@ def add_company_people():
 def get_person_companies(person_id):
     try:
         cur.execute(
-            f"SELECT CompanyId FROM CompanyPerson WHERE PersonId={person_id}")
-    except mariadb.Error as e:
+            f"SELECT CompanyId FROM CompanyPerson WHERE PersonId = {person_id}")
+    except Exception as e:
+        print(e)
         return f"Error: {e}"
     company_id = [column[0] for column in cur]
     return jsonify(company_id)
@@ -203,19 +212,16 @@ def add_person_companies():
 
     try:
         cur.execute(
-            f"DELETE FROM CompanyPerson WHERE PersonId={person_id}")
-    except mariadb.Error as e:
-        return f"Error: {e}"
+            f"DELETE FROM CompanyPerson WHERE PersonId = {person_id}")
 
-    try:
         for company_id in company_id_list:
             cur.execute(
-                "INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES (?, ?)",
-                (company_id, person_id))
-    except mariadb.Error as e:
+                f"INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES ({company_id}, {person_id})")
+    except Exception as e:
+        print(e)
         return f"Error: {e}"
     return jsonify({"PersonId": person_id, "CompanyIdList": company_id_list})
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5000)

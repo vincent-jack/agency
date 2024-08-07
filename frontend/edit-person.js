@@ -15,8 +15,6 @@ if (editable == false) {
     document.getElementById('addDropdown').style.display = "none";
 }
 
-getCompanies("http://127.0.0.1:5000/companies");
-
 
 function addRow(companyId, companyName, town) {
     const table = document.getElementById("data-table");
@@ -61,14 +59,13 @@ function addListItem(companyId, companyName, town) {
 }
 
 
+getCompanies("http://127.0.0.1:5000/companies");
 async function getCompanies(file) {
     const response = await fetch(file);
     const json = await response.json();
 
     const companyResponse = await fetch("http://127.0.0.1:5000/person-companies/" + personId);
     const companyJson = await companyResponse.json();
-
-    console.log(companyJson)
 
     for (let i = 0; i < json.length; i++) {
         if (companyJson.includes(json[i].Id) == true) {
@@ -107,9 +104,6 @@ submitButton.addEventListener('click', async function (e) {
         headers: {'Content-Type': 'application/json'},
         body: data
     });
-    if (checkSave.checked == false) {
-        window.location.replace("http://127.0.0.1:8080/people.html");
-    }
 
     const add_id_list = []
     const personCompaniesId = document.getElementsByClassName("idColumn");
@@ -127,6 +121,10 @@ submitButton.addEventListener('click', async function (e) {
         headers: {'Content-Type': 'application/json'},
         body: personCompaniesData
     });
+
+    if (checkSave.checked == false) {
+        window.location.replace("http://127.0.0.1:8080/people.html");
+    }
 
     const successToastEl = document.getElementById('successToast')
     const successToast = new bootstrap.Toast(successToastEl)

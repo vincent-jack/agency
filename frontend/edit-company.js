@@ -107,9 +107,6 @@ submitButton.addEventListener('click', async function (e) {
         headers: {'Content-Type': 'application/json'},
         body: data
     });
-    if (checkSave.checked == false) {
-        window.location.replace("http://127.0.0.1:8080/companies.html");
-    }
 
     const add_id_list = []
     const companyPeopleId = document.getElementsByClassName("idColumn");
@@ -127,6 +124,10 @@ submitButton.addEventListener('click', async function (e) {
         headers: {'Content-Type': 'application/json'},
         body: companyPeopleData
     });
+
+    if (checkSave.checked == false) {
+        window.location.replace("http://127.0.0.1:8080/companies.html");
+    }
 
     const successToastEl = document.getElementById('successToast')
     const successToast = new bootstrap.Toast(successToastEl)
