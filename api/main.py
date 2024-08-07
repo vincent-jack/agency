@@ -11,7 +11,6 @@ try:
         host="localhost",
         port=5432,
         database="postgres"
-
     )
     conn.autocommit = True
 
