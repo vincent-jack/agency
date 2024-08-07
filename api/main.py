@@ -25,6 +25,7 @@ cur = conn.cursor()
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+os.environ["PORT"] = "5000"
 
 
 @app.route("/companies")
@@ -225,4 +226,4 @@ def add_person_companies():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True)
