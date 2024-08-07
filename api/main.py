@@ -225,5 +225,5 @@ def add_person_companies():
     return jsonify({"PersonId": person_id, "CompanyIdList": company_id_list})
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)
