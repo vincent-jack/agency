@@ -1,4 +1,5 @@
 Flask==2.3.2
 Flask_Cors==4.0.1
 psycopg2==2.9.9
+gunicorn==19.7.1
 
