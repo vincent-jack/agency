@@ -43,13 +43,13 @@ async function getCompanies(file) {
 
         row.appendChild(buttonCol);
 
-        const idCol = document.createElement("th");
-        idCol.appendChild(document.createTextNode(json[i].Id));
+        // const idCol = document.createElement("th");
+        // idCol.appendChild(document.createTextNode(json[i].Id));
         const nameCol = document.createElement("th");
         nameCol.appendChild(document.createTextNode(json[i].CompanyName));
         const townCol = document.createElement("th");
         townCol.appendChild(document.createTextNode(json[i].Town));
-        row.appendChild(idCol);
+        // row.appendChild(idCol);
         row.appendChild(nameCol);
         row.appendChild(townCol);
 

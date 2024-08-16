@@ -42,13 +42,13 @@ async function getPeople(file) {
 
         row.appendChild(buttonCol);
 
-        const idCol = document.createElement("th");
-        idCol.appendChild(document.createTextNode(json[i].Id));
+        // const idCol = document.createElement("th");
+        // idCol.appendChild(document.createTextNode(json[i].Id));
         const firstNameCol = document.createElement("th");
         firstNameCol.appendChild(document.createTextNode(json[i].FirstName));
         const surnameCol = document.createElement("th");
         surnameCol.appendChild(document.createTextNode(json[i].Surname));
-        row.appendChild(idCol);
+        // row.appendChild(idCol);
         row.appendChild(firstNameCol);
         row.appendChild(surnameCol);
 

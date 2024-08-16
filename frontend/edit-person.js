@@ -31,16 +31,16 @@ function addRow(companyId, companyName, town) {
         removeCol.appendChild(removeButton);
     }
 
-    const idCol = document.createElement("th");
-    idCol.appendChild(document.createTextNode(companyId));
-    idCol.classList.add("idColumn")
+    // const idCol = document.createElement("th");
+    // idCol.appendChild(document.createTextNode(companyId));
+    // idCol.classList.add("idColumn")
     const companyNameCol = document.createElement("th");
     companyNameCol.appendChild(document.createTextNode(companyName));
     const townCol = document.createElement("th");
     townCol.appendChild(document.createTextNode(town));
 
     row.appendChild(removeCol)
-    row.appendChild(idCol);
+    // row.appendChild(idCol);
     row.appendChild(companyNameCol);
     row.appendChild(townCol);
     table.appendChild(row);

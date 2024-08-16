@@ -35,16 +35,16 @@ function addRow(personId, firstName, surname) {
         removeCol.appendChild(removeButton);
     }
 
-    const idCol = document.createElement("th");
-    idCol.appendChild(document.createTextNode(personId));
-    idCol.classList.add("idColumn")
+    // const idCol = document.createElement("th");
+    // idCol.appendChild(document.createTextNode(personId));
+    // idCol.classList.add("idColumn")
     const firstNameCol = document.createElement("th");
     firstNameCol.appendChild(document.createTextNode(firstName));
     const surnameCol = document.createElement("th");
     surnameCol.appendChild(document.createTextNode(surname));
 
     row.appendChild(removeCol)
-    row.appendChild(idCol);
+    // row.appendChild(idCol);
     row.appendChild(firstNameCol);
     row.appendChild(surnameCol);
     table.appendChild(row);
