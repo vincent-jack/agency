@@ -48,7 +48,25 @@
                         <hr>
                     </tr>
                     <tr>
-                        <th><a class="btn btn-primary active" href="/new-company.html">New Company</a></th>
+                        <th>
+                            <div class="row">
+                                <div class="dropdown col text-center mb-1">
+                                    <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Order by:
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Id</a></li>
+                                        <li><a class="dropdown-item" href="#">Company Name</a></li>
+                                        <li><a class="dropdown-item" href="#">Town</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-center">
+                                    <a class="btn btn-primary active col w-100" href="/new-company.html">New Company</a>
+                                </div>
+                            </div>
+                        </th>
                         <!-- <th><h4>Id</h4></th> -->
                         <th><h4>Company Name</h4></th>
                         <th><h4>Town</h4></th>
@@ -60,5 +78,6 @@
     </tr>
 </table>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
