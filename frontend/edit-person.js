@@ -4,7 +4,7 @@ const personId = urlParams.get('id');
 document.getElementById('firstName').value = urlParams.get('firstName');
 document.getElementById('surname').value = urlParams.get('surname');
 const editable = (urlParams.get('editable') === 'true')
-const personCompaniesList = []
+const personCompaniesId = []
 
 if (editable == false) {
     document.getElementById('checkDiv').style.display = "none";
@@ -17,6 +17,8 @@ if (editable == false) {
 
 
 function addRow(companyId, companyName, town) {
+    personCompaniesId.push(companyId)
+    console.log(personCompaniesId)
     const table = document.getElementById("data-table");
     const row = document.createElement("tr");
     row.id = "companyRow" + companyId
@@ -70,12 +72,8 @@ async function getCompanies(file) {
     for (let i = 0; i < json.length; i++) {
         if (companyJson.includes(json[i].Id) == true) {
             addRow(json[i].Id, json[i].CompanyName, json[i].Town)
-        }
-    }
-
-    for (let count = 0; count < json.length; count++) {
-        if (companyJson.includes(json[count].Id) == false) {
-            addListItem(json[count].Id, json[count].CompanyName, json[count].Town)
+        } else {
+            addListItem(json[i].Id, json[i].CompanyName, json[i].Town)
         }
     }
 }
@@ -105,15 +103,9 @@ submitButton.addEventListener('click', async function (e) {
         body: data
     });
 
-    const add_id_list = []
-    const personCompaniesId = document.getElementsByClassName("idColumn");
-    for (let i = 0; i < personCompaniesId.length; i++) {
-        add_id_list.push(personCompaniesId[i].innerHTML);
-    }
-
     const personCompaniesData = JSON.stringify({
         person_id: personId,
-        id_list: add_id_list
+        id_list: personCompaniesId
     });
 
     await fetch('http://127.0.0.1:5000/person-companies/add', {
@@ -142,4 +134,8 @@ async function addCompany(companyId, companyName, town) {
 async function removeCompany(companyId, companyName, town) {
     document.getElementById("companyRow" + companyId).remove();
     addListItem(companyId, companyName, town);
+    const index = personCompaniesId.indexOf(companyId);
+    if (index > -1) {
+        personCompaniesId.splice(index, 1);
+    }
 }
