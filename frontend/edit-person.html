@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height: 100%;">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Edit Person</title>
@@ -8,108 +8,104 @@
 
 </head>
 
-<body style="height: 100%;">
-<table style="height: 100%;">
-    <tr>
-        <th>
-            <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px; height: 100%;">
-                <span class="fs-4 d-flex align-items-center mb-3 text-white text-decoration-none">
-                    Agency
-                </span>
-                <hr>
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link text-white" aria-current="page">
-                            <img src="/images/home-icon.png" width="30px">
-                            Home
-                        </a>
-                    </li>
-                    <li>
-                        <a href="companies.html" class="nav-link text-white">
-                            <img src="/images/companies-icon.png" width="30px">
-                            Companies
-                        </a>
-                    </li>
-                    <li>
-                        <a href="people.html" class="nav-link text-white">
-                            <img src="/images/people-icon.png" width="30px">
-                            People
-                        </a>
-                    </li>
-                </ul>
-                <hr>
-            </div>
-        </th>
-
-        <th>
-            <h1 id="pageTitle">Edit Person</h1>
-            <hr>
-            <div id="newPersonForm">
-                <div class="mb-3" style="margin-top: 30px;">
-                    <label for="firstName" class="form-label"><h5>First Name</h5></label>
-                    <input class="form-control border border-primary" id="firstName">
-                </div>
-                <div class="mb-5">
-                    <label for="surname" class="form-label"><h5>Surname</h5></label>
-                    <input class="form-control border border-primary" id="surname">
-                </div>
-
-                <table class="table table-striped mb-3">
-                    <tbody id="data-table">
-                        <tr><h3>Companies</h3></tr>
-                        <hr>
-                        <tr>
-                            <th></th>
-                            <!-- <th><h6>Id</h6></th> -->
-                            <th><h6>Company Name</h6></th>
-                            <th><h6>Town</h6></th>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="dropdown" id="addDropdown">
-                    <button class="btn btn-outline-primary dropdown-toggle mb-5" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Add Company
-                    </button>
-                    <ul class="dropdown-menu" id="companiesDropdown">
+<body>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <div class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <h2 class="d-none d-sm-inline">Agency</h2>
+                    </div>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li class="w-100">
+                            <a href="index.html" class="nav-link text-white" aria-current="page">
+                                <img src="/images/home-icon.png" width="30px">
+                                Home
+                            </a>
+                        </li>
+                        <li class="w-100">
+                            <a href="companies.html" class="nav-link text-white">
+                                <img src="/images/companies-icon.png" width="30px">
+                                Companies
+                            </a>
+                        </li>
+                        <li class="w-100">
+                            <a href="people.html" class="nav-link active">
+                                <img src="/images/people-icon.png" width="30px">
+                                People
+                            </a>
+                        </li>
                     </ul>
-                  </div>
-
-                <div class="mb-3 form-check" id="checkDiv">
-                    <input type="checkbox" class="form-check-input border border-primary" id="checkSave">
-                    <label class="form-check-label" for="checkSave"><h6>Stay on this page after save</h6></label>
                 </div>
-
-                <button type="button" class="btn btn-primary" style="width: 200px;" id="submitButton">Save</button>
             </div>
-        </th>
-    </tr>
-</table>
+            <div class="col py-3">
+                <h1 id="pageTitle">Edit Person</h1>
+                <hr>
+                <div id="newPersonForm">
+                    <div class="mb-3" style="margin-top: 30px;">
+                        <label for="firstName" class="form-label"><h5>First Name</h5></label>
+                        <input class="form-control border border-primary" id="firstName">
+                    </div>
+                    <div class="mb-5">
+                        <label for="surname" class="form-label"><h5>Surname</h5></label>
+                        <input class="form-control border border-primary" id="surname">
+                    </div>
 
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div id="successToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
-      <div class="toast-header bg-success">
-        <strong class="me-auto text-white">Success</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body">
-        The person's data was successfully changed.
-      </div>
+                    <table class="table table-striped mb-3">
+                        <tbody id="data-table">
+                            <tr><h3>Companies</h3></tr>
+                            <hr>
+                            <tr>
+                                <th></th>
+                                <th><h6>Company Name</h6></th>
+                                <th><h6>Town</h6></th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="dropdown" id="addDropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle mb-5" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Add Company
+                        </button>
+                        <ul class="dropdown-menu" id="companiesDropdown">
+                        </ul>
+                    </div>
+
+                    <div class="mb-3 form-check" id="checkDiv">
+                        <input type="checkbox" class="form-check-input border border-primary" id="checkSave">
+                        <label class="form-check-label" for="checkSave"><h6>Stay on this page after save</h6></label>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" style="width: 200px;" id="submitButton">Save</button>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div id="incorrectToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
-      <div class="toast-header bg-danger">
-        <strong class="me-auto text-white">Incorrect data</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body">
-        Fields cannot be left empty and the characters ' and " cannot be used.
-      </div>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="successToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
+        <div class="toast-header bg-success">
+            <strong class="me-auto text-white">Success</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            The person's data was successfully changed.
+        </div>
+        </div>
     </div>
-</div>
 
-<script src="edit-person.js"></script>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="incorrectToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
+        <div class="toast-header bg-danger">
+            <strong class="me-auto text-white">Incorrect data</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Fields cannot be left empty and the characters ' and " cannot be used.
+        </div>
+        </div>
+    </div>
+
+    <script src="edit-person.js"></script>
 </body>
 </html>
