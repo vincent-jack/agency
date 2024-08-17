@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height: 100%;">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Companies</title>
@@ -7,8 +7,8 @@
     <script src="companies.js"></script>
 </head>
 
-<body style="height: 100%;">
-<table style="height: 100%">
+<body>
+<!-- <table style="height: 100%">
     <tr>
         <th>
             <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px; height: 100%;">
@@ -54,7 +54,7 @@
                                     <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Order by:
                                     </button>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu w-100">
                                         <li><a class="dropdown-item" href="#">Id</a></li>
                                         <li><a class="dropdown-item" href="#">Company Name</a></li>
                                         <li><a class="dropdown-item" href="#">Town</a></li>
@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                         </th>
-                        <!-- <th><h4>Id</h4></th> -->
+                        <th><h4>Id</h4></th>
                         <th><h4>Company Name</h4></th>
                         <th><h4>Town</h4></th>
                     </tr>
@@ -76,7 +76,74 @@
         </th>
 
     </tr>
-</table>
+</table> -->
+
+
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <div class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <h2 class="d-none d-sm-inline">Agency</h2>
+                </div>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li class="w-100">
+                        <a href="index.html" class="nav-link text-white" aria-current="page">
+                            <img src="/images/home-icon.png" width="30px">
+                            Home
+                        </a>
+                    </li>
+                    <li class="w-100">
+                        <a href="companies.html" class="nav-link active">
+                            <img src="/images/companies-icon.png" width="30px">
+                            Companies
+                        </a>
+                    </li>
+                    <li class="w-100">
+                        <a href="people.html" class="nav-link text-white">
+                            <img src="/images/people-icon.png" width="30px">
+                            People
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col py-3">
+            <table class="table table-striped">
+                <tbody id="data-table">
+                    <tr>
+                        <h1>Companies</h1>
+                        <hr>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="row">
+                                <div class="dropdown col mb-1">
+                                    <button style="width: 190px;" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Order by:
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Id</a></li>
+                                        <li><a class="dropdown-item" href="#">Company Name</a></li>
+                                        <li><a class="dropdown-item" href="#">Town</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <a style="width: 190px;" class="btn btn-primary active col" href="/new-company.html">New Company</a>
+                                </div>
+                            </div>
+                        </th>
+                        <th><h4>Company Name</h4></th>
+                        <th><h4>Town</h4></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
