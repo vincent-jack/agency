@@ -1,6 +1,4 @@
-const render_url = "https://api-b3hj.onrender.com"
 const submitButton = document.getElementById('submitButton');
-
 submitButton.addEventListener('click', async function (e) {
     const newFirstName = document.getElementById('firstName').value
     const newSurname = document.getElementById('surname').value
@@ -23,7 +21,7 @@ submitButton.addEventListener('click', async function (e) {
         surname: newSurname,
     });
 
-    await fetch(render_url + '/people/create', {
+    await fetch('http://127.0.0.1:5000/people/create', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: data

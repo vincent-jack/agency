@@ -108,7 +108,7 @@ async function deleteRow(event) {
     const deleteCompany = confirm("Are you sure you want to delete this company?")
     if (deleteCompany == true) {
         const company_id = event.target.dataset.id;
-        await fetch(render_url + "/companies/delete/" + company_id, {
+        await fetch("http://127.0.0.1:5000/companies/delete/" + company_id, {
             method: "DELETE"
         });
         location.reload();

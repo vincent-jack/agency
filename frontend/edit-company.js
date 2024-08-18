@@ -1,4 +1,3 @@
-const render_url = "https://api-b3hj.onrender.com"
 const urlParams = new URLSearchParams(window.location.search);
 const companyId = urlParams.get('id');
 
@@ -155,7 +154,7 @@ submitButton.addEventListener('click', async function (e) {
         town: newTown,
     });
 
-    await fetch(render_url + '/companies/update/' + companyId, {
+    await fetch('http://127.0.0.1:5000/companies/update/' + companyId, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: data
@@ -166,7 +165,7 @@ submitButton.addEventListener('click', async function (e) {
         id_list: companyPeopleIds
     });
 
-    await fetch(render_url + '/company-people/add', {
+    await fetch('http://127.0.0.1:5000/company-people/add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: companyPeopleData
