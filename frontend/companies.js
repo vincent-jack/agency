@@ -1,8 +1,9 @@
+const api_url = "http://127.0.0.1:5000"
 getCompaniesByName();
 
 
 async function getCompanies() {
-    const response = await fetch("http://127.0.0.1:5000/companies");
+    const response = await fetch(api_url + "/companies");
     const jsonData = await response.json();
     return jsonData;
 }
@@ -60,7 +61,7 @@ function getRows(json) {
 
         const viewButton = document.createElement("a");
         viewButton.appendChild(document.createTextNode("View"));
-        const viewUrl = new URL("http://127.0.0.1:8080/edit-company.html");
+        const viewUrl = new URL(window.location.protocol + "//" + window.location.host + "/edit-company.html");
         viewUrl.searchParams.append("id", json[i].Id);
         viewUrl.searchParams.append("companyName", json[i].CompanyName);
         viewUrl.searchParams.append("town", json[i].Town);
@@ -73,7 +74,7 @@ function getRows(json) {
         const editButton = document.createElement("a");
         editButton.appendChild(document.createTextNode("Edit"));
         editButton.dataset.id = json[i].Id;
-        const editUrl = new URL("http://127.0.0.1:8080/edit-company.html");
+        const editUrl = new URL(window.location.protocol + "//" + window.location.host + "/edit-company.html");
         editUrl.searchParams.append("id", json[i].Id);
         editUrl.searchParams.append("companyName", json[i].CompanyName);
         editUrl.searchParams.append("town", json[i].Town);
@@ -108,7 +109,7 @@ async function deleteRow(event) {
     const deleteCompany = confirm("Are you sure you want to delete this company?")
     if (deleteCompany == true) {
         const company_id = event.target.dataset.id;
-        await fetch("http://127.0.0.1:5000/companies/delete/" + company_id, {
+        await fetch(api_url + "/companies/delete/" + company_id, {
             method: "DELETE"
         });
         location.reload();

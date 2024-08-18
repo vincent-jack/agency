@@ -1,5 +1,6 @@
-const submitButton = document.getElementById('submitButton');
+const api_url = "http://127.0.0.1:5000"
 
+const submitButton = document.getElementById('submitButton');
 submitButton.addEventListener('click', async function (e) {
     const newCompanyName = document.getElementById('companyName').value
     const newTown = document.getElementById('town').value
@@ -21,7 +22,7 @@ submitButton.addEventListener('click', async function (e) {
         town: newTown,
     });
 
-    await fetch('http://127.0.0.1:5000/companies/create', {
+    await fetch(api_url + '/companies/create', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: data

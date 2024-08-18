@@ -1,3 +1,5 @@
+const api_url = "http://127.0.0.1:5000"
+
 const submitButton = document.getElementById('submitButton');
 submitButton.addEventListener('click', async function (e) {
     const newFirstName = document.getElementById('firstName').value
@@ -21,7 +23,7 @@ submitButton.addEventListener('click', async function (e) {
         surname: newSurname,
     });
 
-    await fetch('http://127.0.0.1:5000/people/create', {
+    await fetch(api_url + '/people/create', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: data

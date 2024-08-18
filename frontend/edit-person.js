@@ -1,3 +1,4 @@
+const api_url = "http://127.0.0.1:5000"
 const urlParams = new URLSearchParams(window.location.search);
 const personId = urlParams.get('id');
 
@@ -20,14 +21,14 @@ getCompaniesByName();
 
 
 async function getCompanies() {
-    const response = await fetch("http://127.0.0.1:5000/companies");
+    const response = await fetch(api_url + "/companies");
     const jsonData = await response.json();
     return jsonData;
 }
 
 
 async function getPersonCompanies() {
-    const companyResponse = await fetch("http://127.0.0.1:5000/person-companies/" + personId);
+    const companyResponse = await fetch(api_url + "/person-companies/" + personId);
     const jsonData = await companyResponse.json();
     return jsonData;
 }
@@ -152,7 +153,7 @@ submitButton.addEventListener('click', async function (e) {
         surname: newSurname,
     });
 
-    await fetch('http://127.0.0.1:5000/people/update/' + personId, {
+    await fetch(api_url + '/people/update/' + personId, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: data
@@ -163,7 +164,7 @@ submitButton.addEventListener('click', async function (e) {
         id_list: personCompaniesId
     });
 
-    await fetch('http://127.0.0.1:5000/person-companies/add', {
+    await fetch(api_url + '/person-companies/add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: personCompaniesData

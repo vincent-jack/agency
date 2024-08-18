@@ -1,8 +1,9 @@
+const api_url = "http://127.0.0.1:5000"
 getPeopleBySurname();
 
 
 async function getPeople() {
-    const response = await fetch("http://127.0.0.1:5000/people");
+    const response = await fetch(api_url + "/people");
     const jsonData = await response.json();
     return jsonData;
 }
@@ -60,7 +61,7 @@ async function getRows(json) {
 
         const viewButton = document.createElement("a");
         viewButton.appendChild(document.createTextNode("View"));
-        const viewUrl = new URL("http://127.0.0.1:8080/edit-person.html");
+        const viewUrl = new URL(window.location.protocol + "//" + window.location.host + "/edit-person.html");
         viewUrl.searchParams.append("id", json[i].Id);
         viewUrl.searchParams.append("firstName", json[i].FirstName);
         viewUrl.searchParams.append("surname", json[i].Surname);
@@ -72,7 +73,7 @@ async function getRows(json) {
 
         const editButton = document.createElement("a");
         editButton.appendChild(document.createTextNode("Edit"));
-        const url = new URL("http://127.0.0.1:8080/edit-person.html");
+        const url = new URL(window.location.protocol + "//" + window.location.host + "/edit-person.html");
         url.searchParams.append("id", json[i].Id);
         url.searchParams.append("firstName", json[i].FirstName);
         url.searchParams.append("surname", json[i].Surname);
@@ -108,7 +109,7 @@ async function deleteRow(event) {
     const deletePerson = confirm("Are you sure you want to delete this person?");
     if (deletePerson == true) {
         const person_id = event.target.dataset.id;
-        await fetch("http://127.0.0.1:5000/people/delete/" + person_id, {
+        await fetch(api_url + "/people/delete/" + person_id, {
             method: "DELETE"
         });
         location.reload();
