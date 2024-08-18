@@ -16,11 +16,87 @@ if (editable == false) {
 }
 
 
+getCompaniesByName();
+
+
+async function getCompanies() {
+    const response = await fetch("http://127.0.0.1:5000/companies");
+    const jsonData = await response.json();
+    return jsonData;
+}
+
+
+async function getPersonCompanies() {
+    const companyResponse = await fetch("http://127.0.0.1:5000/person-companies/" + personId);
+    const jsonData = await companyResponse.json();
+    return jsonData;
+}
+
+
+async function getCompaniesByName() {
+    const peopleData = await getCompanies();
+    peopleData.sort(function (a, b) {
+        if (a.CompanyName < b.CompanyName) {
+          return -1;
+        }
+        if (a.CompanyName > b.CompanyName) {
+          return 1;
+        }
+        return 0;
+    });
+
+    const companyPeopleData = await getPersonCompanies();
+    getRows(peopleData, companyPeopleData);
+    document.getElementById("orderDropdown").innerHTML = "Ordering by: Company Name";
+    document.getElementById("orderNameButton").style.display = "none";
+    document.getElementById("orderTownButton").style.display = "block";
+}
+
+
+async function getCompaniesByTown() {
+    const companyData = await getCompanies();
+    companyData.sort(function (a, b) {
+        if (a.Town < b.Town) {
+          return -1;
+        }
+        if (a.Town > b.Town) {
+          return 1;
+        }
+        return 0;
+    });
+
+    const personCompaniesData = await getPersonCompanies();
+    getRows(companyData, personCompaniesData);
+    document.getElementById("orderDropdown").innerHTML = "Ordering by: Town";
+    document.getElementById("orderNameButton").style.display = "block";
+    document.getElementById("orderTownButton").style.display = "none";
+}
+
+
+async function getRows(companyJson, personCompaniesJson) {
+    const dataRows = document.getElementsByClassName("data-row");
+    while(dataRows.length > 0){
+        dataRows[0].parentNode.removeChild(dataRows[0]);
+    }
+    const dataListItems = document.getElementsByClassName("data-list-item");
+    while(dataListItems.length > 0){
+        dataListItems[0].parentNode.removeChild(dataListItems[0]);
+    }
+    for (let i = 0; i < companyJson.length; i++) {
+        if (personCompaniesJson.includes(companyJson[i].Id) == true) {
+            addRow(companyJson[i].Id, companyJson[i].CompanyName, companyJson[i].Town)
+        } else {
+            addListItem(companyJson[i].Id, companyJson[i].CompanyName, companyJson[i].Town)
+        }
+    }
+}
+
+
 function addRow(companyId, companyName, town) {
     personCompaniesId.push(companyId)
-    console.log(personCompaniesId)
     const table = document.getElementById("data-table");
     const row = document.createElement("tr");
+    row.classList.add("data-row")
     row.id = "companyRow" + companyId
 
     const removeCol = document.createElement("th");
@@ -33,16 +109,12 @@ function addRow(companyId, companyName, town) {
         removeCol.appendChild(removeButton);
     }
 
-    // const idCol = document.createElement("th");
-    // idCol.appendChild(document.createTextNode(companyId));
-    // idCol.classList.add("idColumn")
     const companyNameCol = document.createElement("th");
     companyNameCol.appendChild(document.createTextNode(companyName));
     const townCol = document.createElement("th");
     townCol.appendChild(document.createTextNode(town));
 
     row.appendChild(removeCol)
-    // row.appendChild(idCol);
     row.appendChild(companyNameCol);
     row.appendChild(townCol);
     table.appendChild(row);
@@ -54,28 +126,11 @@ function addListItem(companyId, companyName, town) {
 
     const addButton = document.createElement("button")
     addButton.classList.add("dropdown-item")
+    addButton.classList.add("data-list-item")
     addButton.appendChild(document.createTextNode(companyId + ": " + companyName + ", " + town))
     addButton.setAttribute('onclick','addCompany("' + companyId + '", "' + companyName + '", "' + town + '")')
     addButton.id = "companyListItem" + companyId
     dropdown.appendChild(addButton)
-}
-
-
-getCompanies("http://127.0.0.1:5000/companies");
-async function getCompanies(file) {
-    const response = await fetch(file);
-    const json = await response.json();
-
-    const companyResponse = await fetch("http://127.0.0.1:5000/person-companies/" + personId);
-    const companyJson = await companyResponse.json();
-
-    for (let i = 0; i < json.length; i++) {
-        if (companyJson.includes(json[i].Id) == true) {
-            addRow(json[i].Id, json[i].CompanyName, json[i].Town)
-        } else {
-            addListItem(json[i].Id, json[i].CompanyName, json[i].Town)
-        }
-    }
 }
 
 

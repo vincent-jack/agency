@@ -46,37 +46,48 @@
                         <label for="firstName" class="form-label"><h5>First Name</h5></label>
                         <input class="form-control border border-primary" id="firstName">
                     </div>
-                    <div class="mb-5">
+                    <div class="mb-3">
                         <label for="surname" class="form-label"><h5>Surname</h5></label>
                         <input class="form-control border border-primary" id="surname">
                     </div>
+
+                    <div class="mb-2 form-check" id="checkDiv">
+                        <input type="checkbox" class="form-check-input border border-primary" id="checkSave">
+                        <label class="form-check-label" for="checkSave"><h6>Stay on this page after save</h6></label>
+                    </div>
+                    <button type="button" class="btn btn-primary mb-5" style="width: 200px;" id="submitButton">Save</button>
 
                     <table class="table table-striped mb-3">
                         <tbody id="data-table">
                             <tr><h3>Companies</h3></tr>
                             <hr>
+
+                            <div class="dropdown" id="addDropdown" style="display: inline-block;">
+                                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Add Company
+                                </button>
+                                <ul class="dropdown-menu" id="companiesDropdown">
+                                </ul>
+                            </div>
+
+                            <div class="dropdown" style="display: inline-block;">
+                                <button id="orderDropdown" class="btn btn-secondary dropdown-toggle mx-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Ordering by: Surname
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a id="orderNameButton" class="dropdown-item" onclick="getCompaniesByName()">Order by Company Name</a></li>
+                                    <li><a id="orderTownButton" class="dropdown-item" onclick="getCompaniesByTown()">Order by Town</a></li>
+                                </ul>
+                            </div>
+
                             <tr>
                                 <th></th>
-                                <th><h6>Company Name</h6></th>
-                                <th><h6>Town</h6></th>
+                                <th><h5>Company Name</h5></th>
+                                <th><h5>Town</h5></th>
                             </tr>
                         </tbody>
                     </table>
 
-                    <div class="dropdown" id="addDropdown">
-                        <button class="btn btn-outline-primary dropdown-toggle mb-5" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Add Company
-                        </button>
-                        <ul class="dropdown-menu" id="companiesDropdown">
-                        </ul>
-                    </div>
-
-                    <div class="mb-3 form-check" id="checkDiv">
-                        <input type="checkbox" class="form-check-input border border-primary" id="checkSave">
-                        <label class="form-check-label" for="checkSave"><h6>Stay on this page after save</h6></label>
-                    </div>
-
-                    <button type="button" class="btn btn-primary" style="width: 200px;" id="submitButton">Save</button>
                 </div>
             </div>
         </div>

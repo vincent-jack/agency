@@ -15,13 +15,88 @@ if (editable == false) {
     document.getElementById('addDropdown').style.display = "none";
 }
 
-getPeople("http://127.0.0.1:5000/people");
+
+getPeopleBySurname();
+
+
+async function getPeople() {
+    const response = await fetch("http://127.0.0.1:5000/people");
+    const jsonData = await response.json();
+    return jsonData;
+}
+
+async function getCompanyPeople() {
+    const response = await fetch("http://127.0.0.1:5000/company-people/" + companyId);
+    const jsonData = await response.json();
+    return jsonData;
+    
+}
+
+
+async function getPeopleByFirstName() {
+    const peopleData = await getPeople();
+    peopleData.sort(function (a, b) {
+        if (a.FirstName < b.FirstName) {
+          return -1;
+        }
+        if (a.FirstName > b.FirstName) {
+          return 1;
+        }
+        return 0;
+    });
+
+    const companyPeopleData = await getCompanyPeople();
+    getRows(peopleData, companyPeopleData);
+    document.getElementById("orderDropdown").innerHTML = "Ordering by: First Name";
+    document.getElementById("orderFirstNameButton").style.display = "none";
+    document.getElementById("orderSurnameButton").style.display = "block";
+}
+
+
+async function getPeopleBySurname() {
+    const peopleData = await getPeople();
+    peopleData.sort(function (a, b) {
+        if (a.Surname < b.Surname) {
+          return -1;
+        }
+        if (a.Surname > b.Surname) {
+          return 1;
+        }
+        return 0;
+    });
+
+    const companyPeopleData = await getCompanyPeople();
+    getRows(peopleData, companyPeopleData);
+    document.getElementById("orderDropdown").innerHTML = "Ordering by: Surname";
+    document.getElementById("orderFirstNameButton").style.display = "block";
+    document.getElementById("orderSurnameButton").style.display = "none";
+}
+
+
+async function getRows(peopleJson, companyPeopleJson) {
+    const dataRows = document.getElementsByClassName("data-row");
+    while(dataRows.length > 0){
+        dataRows[0].parentNode.removeChild(dataRows[0]);
+    }
+    const dataListItems = document.getElementsByClassName("data-list-item");
+    while(dataListItems.length > 0){
+        dataListItems[0].parentNode.removeChild(dataListItems[0]);
+    }
+    for (let i = 0; i < peopleJson.length; i++) {
+        if (companyPeopleJson.includes(peopleJson[i].Id) == true) {
+            addRow(peopleJson[i].Id, peopleJson[i].FirstName, peopleJson[i].Surname)
+        } else {
+            addListItem(peopleJson[i].Id, peopleJson[i].FirstName, peopleJson[i].Surname)
+        }
+    }
+}
 
 
 function addRow(personId, firstName, surname) {
     companyPeopleIds.push(personId)
     const table = document.getElementById("data-table");
     const row = document.createElement("tr");
+    row.classList.add("data-row");
     row.id = "personRow" + personId
 
     const removeCol = document.createElement("th");
@@ -36,16 +111,12 @@ function addRow(personId, firstName, surname) {
         removeCol.appendChild(removeButton);
     }
 
-    // const idCol = document.createElement("th");
-    // idCol.appendChild(document.createTextNode(personId));
-    // idCol.classList.add("idColumn")
     const firstNameCol = document.createElement("th");
     firstNameCol.appendChild(document.createTextNode(firstName));
     const surnameCol = document.createElement("th");
     surnameCol.appendChild(document.createTextNode(surname));
 
     row.appendChild(removeCol)
-    // row.appendChild(idCol);
     row.appendChild(firstNameCol);
     row.appendChild(surnameCol);
     table.appendChild(row);
@@ -57,27 +128,11 @@ function addListItem(personId, firstName, surname) {
 
     const addButton = document.createElement("button")
     addButton.classList.add("dropdown-item")
+    addButton.classList.add("data-list-item")
     addButton.appendChild(document.createTextNode(personId + ": " + firstName + " " + surname))
     addButton.setAttribute('onclick','addPerson("' + personId + '", "' + firstName + '", "' + surname + '")')
     addButton.id = "personListItem" + personId
     dropdown.appendChild(addButton)
-}
-
-
-async function getPeople(file) {
-    const response = await fetch(file);
-    const json = await response.json();
-
-    const peopleResponse = await fetch("http://127.0.0.1:5000/company-people/" + companyId);
-    const peopleJson = await peopleResponse.json();
-
-    for (let i = 0; i < json.length; i++) {
-        if (peopleJson.includes(json[i].Id) == true) {
-            addRow(json[i].Id, json[i].FirstName, json[i].Surname)
-        } else {
-            addListItem(json[i].Id, json[i].FirstName, json[i].Surname)
-        }
-    }
 }
 
 
