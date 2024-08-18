@@ -5,17 +5,7 @@ import sys
 import os
 
 try:
-<<<<<<< HEAD
-    conn = psycopg2.connect(
-        user="jackvincent",
-        password=os.environ.get("USER_PASSWORD"),
-        host="localhost",
-        port=5432,
-        database="postgres"
-    )
-=======
     conn = psycopg2.connect(os.environ.get("DB_URL"))
->>>>>>> render
     conn.autocommit = True
 
 except Exception as e:
