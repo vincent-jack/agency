@@ -97,7 +97,6 @@ function getRows(json) {
         nameCol.appendChild(document.createTextNode(json[i].CompanyName));
         const townCol = document.createElement("th");
         townCol.appendChild(document.createTextNode(json[i].Town));
-
         row.appendChild(nameCol);
         row.appendChild(townCol);
         table.appendChild(row);
@@ -109,7 +108,7 @@ async function deleteRow(event) {
     const deleteCompany = confirm("Are you sure you want to delete this company?")
     if (deleteCompany == true) {
         const company_id = event.target.dataset.id;
-        await fetch("http://127.0.0.1:5000/companies/delete/" + company_id, {
+        await fetch(render_url + "/companies/delete/" + company_id, {
             method: "DELETE"
         });
         location.reload();

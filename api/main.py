@@ -5,6 +5,7 @@ import sys
 import os
 
 try:
+<<<<<<< HEAD
     conn = psycopg2.connect(
         user="jackvincent",
         password=os.environ.get("USER_PASSWORD"),
@@ -12,6 +13,9 @@ try:
         port=5432,
         database="postgres"
     )
+=======
+    conn = psycopg2.connect(os.environ.get("DB_URL"))
+>>>>>>> render
     conn.autocommit = True
 
 except Exception as e:
@@ -223,4 +227,4 @@ def add_person_companies():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', port=5000)

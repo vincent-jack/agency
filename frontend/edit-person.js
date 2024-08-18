@@ -1,3 +1,4 @@
+const render_url = "https://api-b3hj.onrender.com"
 const urlParams = new URLSearchParams(window.location.search);
 const personId = urlParams.get('id');
 
@@ -152,7 +153,7 @@ submitButton.addEventListener('click', async function (e) {
         surname: newSurname,
     });
 
-    await fetch('http://127.0.0.1:5000/people/update/' + personId, {
+    await fetch(render_url + '/people/update/' + personId, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: data
@@ -163,14 +164,14 @@ submitButton.addEventListener('click', async function (e) {
         id_list: personCompaniesId
     });
 
-    await fetch('http://127.0.0.1:5000/person-companies/add', {
+    await fetch(render_url + '/person-companies/add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: personCompaniesData
     });
 
     if (checkSave.checked == false) {
-        window.location.replace("http://127.0.0.1:8080/people.html");
+        window.location.replace("people.html");
     }
 
     const successToastEl = document.getElementById('successToast')

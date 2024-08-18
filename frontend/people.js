@@ -96,7 +96,6 @@ async function getRows(json) {
         firstNameCol.appendChild(document.createTextNode(json[i].FirstName));
         const surnameCol = document.createElement("th");
         surnameCol.appendChild(document.createTextNode(json[i].Surname));
-
         row.appendChild(firstNameCol);
         row.appendChild(surnameCol);
         table.appendChild(row);
@@ -109,7 +108,7 @@ async function deleteRow(event) {
     const deletePerson = confirm("Are you sure you want to delete this person?");
     if (deletePerson == true) {
         const person_id = event.target.dataset.id;
-        await fetch("http://127.0.0.1:5000/people/delete/" + person_id, {
+        await fetch(render_url + "/people/delete/" + person_id, {
             method: "DELETE"
         });
         location.reload();
