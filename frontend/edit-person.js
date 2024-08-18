@@ -1,4 +1,4 @@
-const api_url = "http://127.0.0.1:5000"
+const api_url = "https://api-b3hj.onrender.com"
 const urlParams = new URLSearchParams(window.location.search);
 const personId = urlParams.get('id');
 
