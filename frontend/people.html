@@ -47,20 +47,19 @@
                         <tr>
                             <th>
                                 <div class="row">
-                                    <div class="dropdown col mb-1">
-                                        <button style="width: 190px;" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Order by:
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Id</a></li>
-                                            <li><a class="dropdown-item" href="#">First Name</a></li>
-                                            <li><a class="dropdown-item" href="#">Surname</a></li>
-                                        </ul>
+                                    <div class="col mb-1">
+                                        <a style="width: 250px;" class="btn btn-primary active col" href="/new-person.html">New Person</a>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col">
-                                        <a style="width: 190px;" class="btn btn-primary active col" href="/new-person.html">New Person</a>
+                                    <div class="dropdown col">
+                                        <button id="orderDropdown" style="width: 250px;" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Ordering by: Surname
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li style="width: 250px;"><a id="orderFirstNameButton" class="dropdown-item" onclick="getPeopleByFirstName()">Order by First Name</a></li>
+                                            <li style="width: 250px;"><a id="orderSurnameButton" class="dropdown-item" onclick="getPeopleBySurname()">Order by Surname</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </th>

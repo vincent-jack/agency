@@ -1,21 +1,71 @@
-async function getCompanies(file) {
-    const response = await fetch(file);
-    const json = await response.json();
+getCompaniesByName();
+
+
+async function getCompanies() {
+    const response = await fetch("http://127.0.0.1:5000/companies");
+    const jsonData = await response.json();
+    return jsonData;
+}
+
+
+async function getCompaniesByName() {
+    const data = await getCompanies();
+    data.sort(function (a, b) {
+        if (a.CompanyName < b.CompanyName) {
+          return -1;
+        }
+        if (a.CompanyName > b.CompanyName) {
+          return 1;
+        }
+        return 0;
+    });
+
+    getRows(data);
+    document.getElementById("orderDropdown").innerHTML = "Ordering by: Company Name";
+    document.getElementById("orderNameButton").style.display = "none";
+    document.getElementById("orderTownButton").style.display = "block";
+}
+
+
+async function getCompaniesByTown() {
+    const data = await getCompanies();
+    data.sort(function (a, b) {
+        if (a.Town < b.Town) {
+          return -1;
+        }
+        if (a.Town > b.Town) {
+          return 1;
+        }
+        return 0;
+    });
+
+    getRows(data);
+    document.getElementById("orderDropdown").innerHTML = "Ordering by: Town";
+    document.getElementById("orderNameButton").style.display = "block";
+    document.getElementById("orderTownButton").style.display = "none";
+}
+
+
+function getRows(json) {
+    const dataRows = document.getElementsByClassName("data-row");
+    while(dataRows.length > 0){
+        dataRows[0].parentNode.removeChild(dataRows[0]);
+    }
 
     const table = document.getElementById("data-table");
-
     for (let i = 0; i < json.length; i++) {
         const row = document.createElement("tr");
+        row.classList.add("data-row");
         const buttonCol = document.createElement("th");
 
         const viewButton = document.createElement("a");
         viewButton.appendChild(document.createTextNode("View"));
         const viewUrl = new URL("http://127.0.0.1:8080/edit-company.html");
-        viewUrl.searchParams.append("id", json[i].Id)
-        viewUrl.searchParams.append("companyName", json[i].CompanyName)
-        viewUrl.searchParams.append("town", json[i].Town)
-        viewUrl.searchParams.append("editable", false)
-        viewButton.href = viewUrl
+        viewUrl.searchParams.append("id", json[i].Id);
+        viewUrl.searchParams.append("companyName", json[i].CompanyName);
+        viewUrl.searchParams.append("town", json[i].Town);
+        viewUrl.searchParams.append("editable", false);
+        viewButton.href = viewUrl;
         viewButton.classList.add("btn");
         viewButton.classList.add("btn-outline-dark");
         buttonCol.appendChild(viewButton);
@@ -24,14 +74,14 @@ async function getCompanies(file) {
         editButton.appendChild(document.createTextNode("Edit"));
         editButton.dataset.id = json[i].Id;
         const editUrl = new URL("http://127.0.0.1:8080/edit-company.html");
-        editUrl.searchParams.append("id", json[i].Id)
-        editUrl.searchParams.append("companyName", json[i].CompanyName)
-        editUrl.searchParams.append("town", json[i].Town)
-        editUrl.searchParams.append("editable", true)
-        editButton.href = editUrl
+        editUrl.searchParams.append("id", json[i].Id);
+        editUrl.searchParams.append("companyName", json[i].CompanyName);
+        editUrl.searchParams.append("town", json[i].Town);
+        editUrl.searchParams.append("editable", true);
+        editButton.href = editUrl;
         editButton.classList.add("btn");
         editButton.classList.add("btn-outline-primary");
-        buttonCol.appendChild(editButton)
+        buttonCol.appendChild(editButton);
 
         const deletebutton = document.createElement("button");
         deletebutton.appendChild(document.createTextNode("Delete"));
@@ -43,22 +93,16 @@ async function getCompanies(file) {
 
         row.appendChild(buttonCol);
 
-        // const idCol = document.createElement("th");
-        // idCol.appendChild(document.createTextNode(json[i].Id));
         const nameCol = document.createElement("th");
         nameCol.appendChild(document.createTextNode(json[i].CompanyName));
         const townCol = document.createElement("th");
         townCol.appendChild(document.createTextNode(json[i].Town));
-        // row.appendChild(idCol);
+
         row.appendChild(nameCol);
         row.appendChild(townCol);
-
         table.appendChild(row);
         }
-
-    }
-
-    getCompanies("http://127.0.0.1:5000/companies");
+}
 
 
 async function deleteRow(event) {
@@ -72,30 +116,3 @@ async function deleteRow(event) {
     }
     
 }
-
-async function updateRow(event) {
-    const company_id = event.target.dataset.id;
-    const new_name = prompt("Enter Name of Company:");
-    const new_town = prompt("Enter Town of Company:");
-
-    if (new_name == "" || new_town == "") {
-        alert("Fields cannot be left blank")
-        return
-    }
-
-    const data = JSON.stringify({
-        company_name: new_name,
-        town: new_town,
-    });
-
-    await fetch("http://127.0.0.1:5000/companies/update/" + company_id, {
-        method: "PUT",
-        headers: {
-            'Content-Type': 'application/json',
-          },
-        body: data,
-    })
-    location.reload();
-}
-
-

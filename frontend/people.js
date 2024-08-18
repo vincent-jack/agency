@@ -1,21 +1,71 @@
-async function getPeople(file) {
-    const response = await fetch(file);
-    const json = await response.json();
+getPeopleBySurname();
+
+
+async function getPeople() {
+    const response = await fetch("http://127.0.0.1:5000/people");
+    const jsonData = await response.json();
+    return jsonData;
+}
+
+
+async function getPeopleByFirstName() {
+    const data = await getPeople();
+    data.sort(function (a, b) {
+        if (a.FirstName < b.FirstName) {
+          return -1;
+        }
+        if (a.FirstName > b.FirstName) {
+          return 1;
+        }
+        return 0;
+    });
+
+    getRows(data);
+    document.getElementById("orderDropdown").innerHTML = "Ordering by: First Name";
+    document.getElementById("orderFirstNameButton").style.display = "none";
+    document.getElementById("orderSurnameButton").style.display = "block";
+}
+
+
+async function getPeopleBySurname() {
+    const data = await getPeople();
+    data.sort(function (a, b) {
+        if (a.Surname < b.Surname) {
+          return -1;
+        }
+        if (a.Surname > b.Surname) {
+          return 1;
+        }
+        return 0;
+    });
+
+    getRows(data);
+    document.getElementById("orderDropdown").innerHTML = "Ordering by: Surname";
+    document.getElementById("orderFirstNameButton").style.display = "block";
+    document.getElementById("orderSurnameButton").style.display = "none";
+}
+
+
+async function getRows(json) {
+    const dataRows = document.getElementsByClassName("data-row");
+    while(dataRows.length > 0){
+        dataRows[0].parentNode.removeChild(dataRows[0]);
+    }
 
     const table = document.getElementById("data-table");
-
     for (let i = 0; i < json.length; i++) {
         const row = document.createElement("tr");
+        row.classList.add("data-row");
         const buttonCol = document.createElement("th");
 
         const viewButton = document.createElement("a");
         viewButton.appendChild(document.createTextNode("View"));
         const viewUrl = new URL("http://127.0.0.1:8080/edit-person.html");
-        viewUrl.searchParams.append("id", json[i].Id)
-        viewUrl.searchParams.append("firstName", json[i].FirstName)
-        viewUrl.searchParams.append("surname", json[i].Surname)
-        viewUrl.searchParams.append("editable", false)
-        viewButton.href = viewUrl
+        viewUrl.searchParams.append("id", json[i].Id);
+        viewUrl.searchParams.append("firstName", json[i].FirstName);
+        viewUrl.searchParams.append("surname", json[i].Surname);
+        viewUrl.searchParams.append("editable", false);
+        viewButton.href = viewUrl;
         viewButton.classList.add("btn");
         viewButton.classList.add("btn-outline-dark");
         buttonCol.appendChild(viewButton);
@@ -23,14 +73,14 @@ async function getPeople(file) {
         const editButton = document.createElement("a");
         editButton.appendChild(document.createTextNode("Edit"));
         const url = new URL("http://127.0.0.1:8080/edit-person.html");
-        url.searchParams.append("id", json[i].Id)
-        url.searchParams.append("firstName", json[i].FirstName)
-        url.searchParams.append("surname", json[i].Surname)
-        url.searchParams.append("editable", true)
-        editButton.href = url
+        url.searchParams.append("id", json[i].Id);
+        url.searchParams.append("firstName", json[i].FirstName);
+        url.searchParams.append("surname", json[i].Surname);
+        url.searchParams.append("editable", true);
+        editButton.href = url;
         editButton.classList.add("btn");
         editButton.classList.add("btn-outline-primary");
-        buttonCol.appendChild(editButton)
+        buttonCol.appendChild(editButton);
 
         const deletebutton = document.createElement("button");
         deletebutton.appendChild(document.createTextNode("Delete"));
@@ -42,26 +92,21 @@ async function getPeople(file) {
 
         row.appendChild(buttonCol);
 
-        // const idCol = document.createElement("th");
-        // idCol.appendChild(document.createTextNode(json[i].Id));
         const firstNameCol = document.createElement("th");
         firstNameCol.appendChild(document.createTextNode(json[i].FirstName));
         const surnameCol = document.createElement("th");
         surnameCol.appendChild(document.createTextNode(json[i].Surname));
-        // row.appendChild(idCol);
+
         row.appendChild(firstNameCol);
         row.appendChild(surnameCol);
-
         table.appendChild(row);
         }
 
     }
 
-getPeople("http://127.0.0.1:5000/people");
-
 
 async function deleteRow(event) {
-    const deletePerson = confirm("Are you sure you want to delete this person?")
+    const deletePerson = confirm("Are you sure you want to delete this person?");
     if (deletePerson == true) {
         const person_id = event.target.dataset.id;
         await fetch("http://127.0.0.1:5000/people/delete/" + person_id, {
@@ -70,24 +115,4 @@ async function deleteRow(event) {
         location.reload();
     }
 }
-
-async function updateRow(event) {
-    const person_id = event.target.dataset.id;
-    const new_first_name = prompt("Enter First Name:");
-    const new_surname = prompt("Enter Surname:");
-    const data = JSON.stringify({
-        first_name: new_first_name,
-        surname: new_surname,
-    });
-
-    await fetch("http://127.0.0.1:5000/people/update/" + person_id, {
-        method: "PUT",
-        headers: {
-            'Content-Type': 'application/json',
-          },
-        body: data,
-    })
-    location.reload();
-}
-
 
