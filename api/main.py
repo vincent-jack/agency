@@ -31,9 +31,13 @@ def companies_list():
 
     companies = []
     for column in cur:
-        row = {"Id": column[0],
-               "CompanyName": column[1],
-               "Town": column[2]}
+        row = {"id": column[0],
+               "companyName": column[1],
+               "town": column[2],
+               "address": column[3],
+               "telephoneNumber": column[4],
+               "website": column[5],
+               "employeeCount": column[6]}
         companies.append(row)
 
     return jsonify(companies)
