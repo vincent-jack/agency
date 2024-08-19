@@ -12,10 +12,10 @@ async function getPeople() {
 async function getPeopleByFirstName() {
     const data = await getPeople();
     data.sort(function (a, b) {
-        if (a.FirstName < b.FirstName) {
+        if (a.firstName < b.firstName) {
           return -1;
         }
-        if (a.FirstName > b.FirstName) {
+        if (a.firstName > b.firstName) {
           return 1;
         }
         return 0;
@@ -31,10 +31,10 @@ async function getPeopleByFirstName() {
 async function getPeopleBySurname() {
     const data = await getPeople();
     data.sort(function (a, b) {
-        if (a.Surname < b.Surname) {
+        if (a.surname < b.surname) {
           return -1;
         }
-        if (a.Surname > b.Surname) {
+        if (a.surname > b.surname) {
           return 1;
         }
         return 0;
@@ -62,9 +62,9 @@ async function getRows(json) {
         const viewButton = document.createElement("a");
         viewButton.appendChild(document.createTextNode("View"));
         const viewUrl = new URL(window.location.protocol + "//" + window.location.host + "/edit-person.html");
-        viewUrl.searchParams.append("id", json[i].Id);
-        viewUrl.searchParams.append("firstName", json[i].FirstName);
-        viewUrl.searchParams.append("surname", json[i].Surname);
+        viewUrl.searchParams.append("id", json[i].id);
+        viewUrl.searchParams.append("firstName", json[i].firstName);
+        viewUrl.searchParams.append("surname", json[i].surname);
         viewUrl.searchParams.append("editable", false);
         viewButton.href = viewUrl;
         viewButton.classList.add("btn");
@@ -74,9 +74,9 @@ async function getRows(json) {
         const editButton = document.createElement("a");
         editButton.appendChild(document.createTextNode("Edit"));
         const url = new URL(window.location.protocol + "//" + window.location.host + "/edit-person.html");
-        url.searchParams.append("id", json[i].Id);
-        url.searchParams.append("firstName", json[i].FirstName);
-        url.searchParams.append("surname", json[i].Surname);
+        url.searchParams.append("id", json[i].id);
+        url.searchParams.append("firstName", json[i].firstName);
+        url.searchParams.append("surname", json[i].surname);
         url.searchParams.append("editable", true);
         editButton.href = url;
         editButton.classList.add("btn");
@@ -85,7 +85,7 @@ async function getRows(json) {
 
         const deletebutton = document.createElement("button");
         deletebutton.appendChild(document.createTextNode("Delete"));
-        deletebutton.dataset.id = json[i].Id;
+        deletebutton.dataset.id = json[i].id;
         deletebutton.addEventListener("click", deleteRow);
         deletebutton.classList.add("btn");
         deletebutton.classList.add("btn-outline-danger");
@@ -94,11 +94,24 @@ async function getRows(json) {
         row.appendChild(buttonCol);
 
         const firstNameCol = document.createElement("th");
-        firstNameCol.appendChild(document.createTextNode(json[i].FirstName));
+        firstNameCol.appendChild(document.createTextNode(json[i].firstName));
         const surnameCol = document.createElement("th");
-        surnameCol.appendChild(document.createTextNode(json[i].Surname));
+        surnameCol.appendChild(document.createTextNode(json[i].surname));
+        const emailCol = document.createElement("th");
+        emailCol.appendChild(document.createTextNode(json[i].email));
+        const telephoneCol = document.createElement("th");
+        telephoneCol.appendChild(document.createTextNode(json[i].telephoneNumber));
+        const dateOfBirthCol = document.createElement("th");
+        dateOfBirthCol.appendChild(document.createTextNode(json[i].dateOfBirth));
+        const companyCountCol = document.createElement("th");
+        companyCountCol.appendChild(document.createTextNode(json[i].companyCount));
+
         row.appendChild(firstNameCol);
         row.appendChild(surnameCol);
+        row.appendChild(emailCol);
+        row.appendChild(telephoneCol);
+        row.appendChild(dateOfBirthCol);
+        row.appendChild(companyCountCol);
         table.appendChild(row);
         }
 

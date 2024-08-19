@@ -3,6 +3,8 @@ from flask_cors import CORS, cross_origin
 import psycopg2
 import sys
 import os
+from person import person_routes
+from company_person import company_person_routes
 
 try:
     conn = psycopg2.connect(os.environ.get("DB_URL"))
@@ -15,6 +17,8 @@ except Exception as e:
 cur = conn.cursor()
 
 app = Flask(__name__)
+app.register_blueprint(person_routes)
+app.register_blueprint(company_person_routes)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -90,135 +94,5 @@ def update_company(company_id):
     return jsonify({"Company": new_name, "Town": new_town})
 
 
-@app.route("/people")
-@cross_origin()
-def people_list():
-    try:
-        cur.execute(
-            "SELECT * FROM Person")
-    except Exception as e:
-        print(e)
-        return f"Error: {e}"
-
-    people = []
-    for column in cur:
-        row = {"Id": column[0],
-               "FirstName": column[1],
-               "Surname": column[2]}
-        people.append(row)
-    return jsonify(people)
-
-
-@app.route("/people/create", methods=["POST"])
-@cross_origin()
-def create_person():
-    first_name = request.json['first_name']
-    surname = request.json['surname']
-    try:
-        cur.execute(
-            "INSERT INTO Person (FirstName, Surname) VALUES (%s, %s)",
-            (first_name, surname))
-    except Exception as e:
-        print(e)
-        return f"Error: {e}"
-
-    return jsonify({"FirstName": first_name, "Surname": surname})
-
-
-@app.route("/people/delete/<int:person_id>", methods=["DELETE"])
-@cross_origin()
-def delete_person(person_id):
-    try:
-        cur.execute(
-            f"DELETE FROM Person WHERE Id = {person_id}")
-        cur.execute(
-            f"DELETE FROM CompanyPerson WHERE PersonId = {person_id}"
-        )
-    except Exception as e:
-        print(e)
-        return f"Error: {e}"
-    return "Success"
-
-
-@app.route("/people/update/<int:person_id>", methods=["PUT"])
-@cross_origin()
-def update_person(person_id):
-    new_first_name = request.json['first_name']
-    new_surname = request.json['surname']
-    try:
-        cur.execute(
-            f"UPDATE Person SET FirstName = '{new_first_name}', Surname = '{new_surname}' WHERE id = {person_id}")
-    except Exception as e:
-        print(e)
-        return f"Error: {e}"
-
-    return jsonify({"FirstName": new_first_name, "Surname": new_surname})
-
-
-@app.route("/company-people/<int:company_id>", methods=["GET"])
-@cross_origin()
-def get_company_people(company_id):
-    try:
-        cur.execute(
-            f"SELECT PersonId FROM CompanyPerson WHERE CompanyId = {company_id}")
-    except Exception as e:
-        print(e)
-        return f"Error: {e}"
-    people_id = [column[0] for column in cur]
-
-    return jsonify(people_id)
-
-
-@app.route("/company-people/add", methods=["POST"])
-@cross_origin()
-def add_company_people():
-    company_id = request.json['company_id']
-    person_id_list = request.json['id_list']
-
-    try:
-        cur.execute(
-            f"DELETE FROM CompanyPerson WHERE CompanyId = {company_id}")
-
-        for person_id in person_id_list:
-            cur.execute(
-                f"INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES ({company_id}, {person_id})")
-    except Exception as e:
-        print(e)
-        return f"Error: {e}"
-    return jsonify({"CompanyId": company_id, "PeopleIdList": person_id_list})
-
-
-@app.route("/person-companies/<int:person_id>", methods=["GET"])
-@cross_origin()
-def get_person_companies(person_id):
-    try:
-        cur.execute(
-            f"SELECT CompanyId FROM CompanyPerson WHERE PersonId = {person_id}")
-    except Exception as e:
-        print(e)
-        return f"Error: {e}"
-    company_id = [column[0] for column in cur]
-    return jsonify(company_id)
-
-
-@app.route("/person-companies/add", methods=["POST"])
-@cross_origin()
-def add_person_companies():
-    person_id = request.json['person_id']
-    company_id_list = request.json['id_list']
-
-    try:
-        cur.execute(
-            f"DELETE FROM CompanyPerson WHERE PersonId = {person_id}")
-
-        for company_id in company_id_list:
-            cur.execute(
-                f"INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES ({company_id}, {person_id})")
-    except Exception as e:
-        print(e)
-        return f"Error: {e}"
-    return jsonify({"PersonId": person_id, "CompanyIdList": company_id_list})
-
-
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(port=5000)
