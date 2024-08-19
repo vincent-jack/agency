@@ -14,10 +14,10 @@ except Exception as e:
 
 cur = conn.cursor()
 
-people_routes = Blueprint('people_routes', __name__)
+person_routes = Blueprint('person_routes', __name__)
 
 
-@people_routes.route("/people")
+@person_routes.route("/people")
 @cross_origin()
 def people_list():
     try:
@@ -40,7 +40,7 @@ def people_list():
     return jsonify(people)
 
 
-@people_routes.route("/people/create", methods=["POST"])
+@person_routes.route("/people/create", methods=["POST"])
 @cross_origin()
 def create_person():
     first_name = request.json['first_name']
@@ -56,7 +56,7 @@ def create_person():
     return jsonify({"FirstName": first_name, "Surname": surname})
 
 
-@people_routes.route("/people/delete/<int:person_id>", methods=["DELETE"])
+@person_routes.route("/people/delete/<int:person_id>", methods=["DELETE"])
 @cross_origin()
 def delete_person(person_id):
     try:
@@ -71,7 +71,7 @@ def delete_person(person_id):
     return "Success"
 
 
-@people_routes.route("/people/update/<int:person_id>", methods=["PUT"])
+@person_routes.route("/people/update/<int:person_id>", methods=["PUT"])
 @cross_origin()
 def update_person(person_id):
     new_first_name = request.json['first_name']
