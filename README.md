@@ -33,6 +33,48 @@
   HTML and JS files are stored in the 'frontend' directory, while the python api file is kept in the 'api' directory.
 </p>
 
+<h3>Installation</h3>
+<p>Clone this repository:<br>
+```bash<br>
+git clone https://github.com/vincent-jack/agency.git</p>
+
+<h4>Run frontend</h4>
+
+<p>Navigate to the directory:<br>
+cd agency<br>
+cd frontend</p>
+
+<p>Install dependencies:<br>
+npm install</p>
+
+<p>Run the development server:<br>
+npm start</p>
+
+<h4>Database setup</h4>
+<p>Setup PostgreSQL:<br>
+Download and install a PostgreSQL server. For instructions, refer to the PostgreSQL documentation on www.postgresql.org.<br>
+Add the PostgreSQL bin directory path to the PATH environmental variable.<br>
+Open the command line and replace userName with your username: psql -U userName<br>
+Enter your password if prompted.</p>
+
+<p>Restore database:<br>
+Create a template database with your chosen name: createdb -T template0 dbname<br>
+Restore the data.sql file found in the agency directory: psql dbname < data.sql<br>
+See https://www.postgresql.org/docs/8.1/backup.html for more info on dumping.
+</p>
+
+<h4>Run api</h4>
+
+<p>Navigate to the diectory:<br>
+cd agency<br>
+cd api</p>
+
+<p>Install dependencies:<br>
+Python 3 must be installed: https://www.python.org/downloads/<br>
+Create the DB_URL environment variable, filling in the required data on your database: export DB_URL="postgresql://username:password@host:port/database_name"<br>
+pip install requirements.txt<br>
+python3 main.py</p>
+
 <h3>Contact me</h3>
 <p>You can email me at vincent.jack@icloud.com or see my linkedin at: https://www.linkedin.com/in/jack-vincent-51b7542a8/</p>
 
