@@ -12,10 +12,10 @@ async function getCompanies() {
 async function getCompaniesByName() {
     const data = await getCompanies();
     data.sort(function (a, b) {
-        if (a.CompanyName < b.CompanyName) {
+        if (a.companyName < b.companyName) {
           return -1;
         }
-        if (a.CompanyName > b.CompanyName) {
+        if (a.companyName > b.companyName) {
           return 1;
         }
         return 0;
@@ -31,10 +31,10 @@ async function getCompaniesByName() {
 async function getCompaniesByTown() {
     const data = await getCompanies();
     data.sort(function (a, b) {
-        if (a.Town < b.Town) {
+        if (a.town < b.town) {
           return -1;
         }
-        if (a.Town > b.Town) {
+        if (a.town > b.town) {
           return 1;
         }
         return 0;
@@ -62,9 +62,9 @@ function getRows(json) {
         const viewButton = document.createElement("a");
         viewButton.appendChild(document.createTextNode("View"));
         const viewUrl = new URL(window.location.protocol + "//" + window.location.host + "/edit-company.html");
-        viewUrl.searchParams.append("id", json[i].Id);
-        viewUrl.searchParams.append("companyName", json[i].CompanyName);
-        viewUrl.searchParams.append("town", json[i].Town);
+        viewUrl.searchParams.append("id", json[i].id);
+        viewUrl.searchParams.append("companyName", json[i].companyName);
+        viewUrl.searchParams.append("town", json[i].town);
         viewUrl.searchParams.append("editable", false);
         viewButton.href = viewUrl;
         viewButton.classList.add("btn");
@@ -73,11 +73,11 @@ function getRows(json) {
 
         const editButton = document.createElement("a");
         editButton.appendChild(document.createTextNode("Edit"));
-        editButton.dataset.id = json[i].Id;
+        editButton.dataset.id = json[i].id;
         const editUrl = new URL(window.location.protocol + "//" + window.location.host + "/edit-company.html");
-        editUrl.searchParams.append("id", json[i].Id);
-        editUrl.searchParams.append("companyName", json[i].CompanyName);
-        editUrl.searchParams.append("town", json[i].Town);
+        editUrl.searchParams.append("id", json[i].id);
+        editUrl.searchParams.append("companyName", json[i].companyName);
+        editUrl.searchParams.append("town", json[i].town);
         editUrl.searchParams.append("editable", true);
         editButton.href = editUrl;
         editButton.classList.add("btn");
@@ -95,11 +95,24 @@ function getRows(json) {
         row.appendChild(buttonCol);
 
         const nameCol = document.createElement("th");
-        nameCol.appendChild(document.createTextNode(json[i].CompanyName));
+        nameCol.appendChild(document.createTextNode(json[i].companyName));
         const townCol = document.createElement("th");
-        townCol.appendChild(document.createTextNode(json[i].Town));
+        townCol.appendChild(document.createTextNode(json[i].town));
+        const addressCol = document.createElement("th");
+        addressCol.appendChild(document.createTextNode(json[i].address));
+        const telephoneCol = document.createElement("th");
+        telephoneCol.appendChild(document.createTextNode(json[i].telephoneNumber));
+        const websiteCol = document.createElement("th");
+        websiteCol.appendChild(document.createTextNode(json[i].website));
+        const employeeCol = document.createElement("th");
+        employeeCol.appendChild(document.createTextNode(json[i].employeeCount));
+        
         row.appendChild(nameCol);
         row.appendChild(townCol);
+        row.appendChild(addressCol);
+        row.appendChild(telephoneCol);
+        row.appendChild(websiteCol);
+        row.appendChild(employeeCol);
         table.appendChild(row);
         }
 }
