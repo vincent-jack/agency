@@ -4,6 +4,10 @@ const submitButton = document.getElementById('submitButton');
 submitButton.addEventListener('click', async function (e) {
     const newFirstName = document.getElementById('firstName').value
     const newSurname = document.getElementById('surname').value
+    const newEmail = document.getElementById('email').value
+    const newTelephoneNumber = document.getElementById('telephoneNumber').value
+    const newDateOfBirth = document.getElementById('dateOfBirth').value
+
     const checkSave = document.getElementById('checkSave')
 
     if (newFirstName == "" || newSurname == ""
@@ -17,10 +21,16 @@ submitButton.addEventListener('click', async function (e) {
 
     document.getElementById('firstName').value = ''
     document.getElementById('surname').value = ''
+    document.getElementById('email').value = ''
+    document.getElementById('telephoneNumber').value = ''
+    document.getElementById('dateOfBirth').value = ''
 
     const data = JSON.stringify({
         first_name: newFirstName,
         surname: newSurname,
+        email: newEmail,
+        telephone_number: newTelephoneNumber,
+        date_of_birth: newDateOfBirth
     });
 
     await fetch(api_url + '/people/create', {

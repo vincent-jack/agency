@@ -37,7 +37,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col py-3">
+            <div class="col py-3" style="margin-left: 12vw; margin-right: 12vw;">
                 <h1>New Person</h1>
                 <hr>
                 <form id="newPersonForm">
@@ -49,7 +49,20 @@
                         <label for="surname" class="form-label mb-0"><h5>Surname</h5></label>
                         <input class="form-control border border-primary" id="surname">
                     </div>
-                    <div class="mb-3 form-check">
+                    <div class="mb-2">
+                        <label for="email" class="form-label mb-0"><h5>Email</h5></label>
+                        <input class="form-control border border-primary" id="email" type="email">
+                    </div>
+                    <div class="mb-2">
+                        <label for="telephoneNumber" class="form-label mb-0"><h5>Telephone Number</h5></label>
+                        <input class="form-control border border-primary" id="telephoneNumber" type="tel">
+                    </div>
+                    <div class="mb-4">
+                        <label for="dateOfBirth" class="form-label mb-0"><h5>Date of Birth</h5></label>
+                        <input style="border-radius: 5px;" class="form-control border-primary" id="dateOfBirth" type="date">
+                    </div>
+
+                    <div class="mb-1 form-check">
                         <input type="checkbox" class="form-check-input border border-primary" id="checkSave">
                         <label class="form-check-label" for="checkSave"><h6>Stay on this page after save</h6></label>
                     </div>
