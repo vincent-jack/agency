@@ -45,15 +45,19 @@ def people_list():
 def create_person():
     first_name = request.json['first_name']
     surname = request.json['surname']
+    email = request.json['email']
+    telephone_number = request.json['telephone_number']
+    date_of_birth = request.json['date_of_birth']
+
     try:
         cur.execute(
-            "INSERT INTO Person (FirstName, Surname) VALUES (%s, %s)",
-            (first_name, surname))
+            "INSERT INTO Person (FirstName, Surname, Email, TelephoneNumber, DateOfBirth, CompanyCount) VALUES (%s, %s, %s, %s, %s, %s)",
+            (first_name, surname, email, telephone_number, date_of_birth, 0))
     except Exception as e:
         print(e)
         return f"Error: {e}"
 
-    return jsonify({"FirstName": first_name, "Surname": surname})
+    return jsonify({"FirstName": first_name, "Surname": surname, "Email": email, "TelephoneNumber": telephone_number, "DateOfBirth": date_of_birth, "CompanyCount": 0})
 
 
 @person_routes.route("/people/delete/<int:person_id>", methods=["DELETE"])

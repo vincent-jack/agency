@@ -50,20 +50,20 @@ def companies_list():
 @app.route("/companies/create", methods=["POST"])
 @cross_origin()
 def create_company():
-    new_company = request.json['company_name']
-    new_town = request.json['town']
-    new_address = request.json['address']
-    new_telephone_number = request.json['telephone_number']
-    new_website = request.json['website']
+    company = request.json['company_name']
+    town = request.json['town']
+    address = request.json['address']
+    telephone_number = request.json['telephone_number']
+    website = request.json['website']
     try:
         cur.execute(
             "INSERT INTO Company (CompanyName, Town, Address, TelephoneNumber, Website, EmployeeCount) VALUES (%s, %s, %s, %s, %s, %s)",
-            (new_company, new_town, new_address, new_telephone_number, new_website, 0))
+            (company, town, address, telephone_number, website, 0))
     except Exception as e:
         print(e)
         return f"Error: {e}"
 
-    return jsonify({"Company": new_company, "Town": new_town, "Address": new_address, "Telephone Number": new_telephone_number, "Website": new_website})
+    return jsonify({"CompanyName": company, "Town": town, "Address": address, "TelephoneNumber": telephone_number, "Website": website, "EmployeeCount": 0})
 
 
 @app.route("/companies/delete/<int:company_id>", methods=["DELETE"])
