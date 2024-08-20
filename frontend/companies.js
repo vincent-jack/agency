@@ -86,7 +86,7 @@ function getRows(json) {
 
         const deletebutton = document.createElement("button");
         deletebutton.appendChild(document.createTextNode("Delete"));
-        deletebutton.dataset.id = json[i].Id;
+        deletebutton.dataset.id = json[i].id;
         deletebutton.addEventListener("click", deleteRow);
         deletebutton.classList.add("btn");
         deletebutton.classList.add("btn-outline-danger");
