@@ -10,12 +10,7 @@ submitButton.addEventListener('click', async function (e) {
 
     const checkSave = document.getElementById('checkSave')
 
-    if (newFirstName == "" || newSurname == ""
-        || newFirstName.includes("'") == true || newFirstName.includes('"') == true || newSurname.includes("'") == true || newSurname.includes('"') == true
-    ) {
-        const incorrectToastEl = document.getElementById('incorrectToast')
-        const incorrectToast = new bootstrap.Toast(incorrectToastEl)
-        incorrectToast.show();
+    if (validateForm(newFirstName, newSurname, newEmail, newTelephoneNumber, newDateOfBirth) == false) {
         return
     }
 
@@ -48,3 +43,31 @@ submitButton.addEventListener('click', async function (e) {
 
 
 });
+
+
+function validateForm(firstName, surname, email, telephoneNumber, dateOfBirth) {
+    
+    let incorrectData = false;
+    const now = new Date
+    const toastMessage = document.getElementById("incorrectToastMessage");
+    if (firstName == "" || surname == "" || email == "" || telephoneNumber == "" || dateOfBirth == "") {
+        toastMessage.innerHTML = "Fields cannot be left blank.";
+        incorrectData = true;
+    } else if (/^\d+$/.test(telephoneNumber) == false) {
+        toastMessage.innerHTML = "Telephone Number field can only include numbers.";
+        incorrectData = true;
+    } else if (new Date(dateOfBirth) > now) {
+        toastMessage.innerHTML = "Date of Birth cannot be in the future.";
+        incorrectData = true;
+    }
+    
+
+    if (incorrectData == true) {
+        const incorrectToastEl = document.getElementById('incorrectToast');
+        const incorrectToast = new bootstrap.Toast(incorrectToastEl);
+        incorrectToast.show();
+        return false;
+    } else {
+        return true;
+    }
+};
