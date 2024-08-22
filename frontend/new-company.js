@@ -11,8 +11,8 @@ submitButton.addEventListener('click', async function (e) {
     const checkSave = document.getElementById('checkSave');
 
     if (validateForm(newCompanyName, newTown, newAddress, newTelephoneNumber, newWebsite) == false) {
-        return
-    }
+        return;
+    };
 
     document.getElementById('companyName').value = '';
     document.getElementById('town').value = '';
@@ -53,7 +53,7 @@ function validateForm(companyName, town, address, telephoneNumber, website) {
           return false;  
         }
         return true;
-    }
+    };
 
     
     let incorrectData = false;

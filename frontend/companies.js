@@ -1,4 +1,4 @@
-const api_url = "http://127.0.0.1:5000"
+const api_url = "http://127.0.0.1:5000";
 getCompaniesByName();
 
 
@@ -59,13 +59,18 @@ function getRows(json) {
         row.classList.add("data-row");
         const buttonCol = document.createElement("th");
 
+        const url = new URL(window.location.protocol + "//" + window.location.host + "/edit-company.html");
+        url.searchParams.set("id", json[i].id);
+        url.searchParams.set("companyName", json[i].companyName);
+        url.searchParams.set("town", json[i].town);
+        url.searchParams.set("address", json[i].address);
+        url.searchParams.set("telephoneNumber", json[i].telephoneNumber);
+        url.searchParams.set("website", json[i].website);
+
         const viewButton = document.createElement("a");
         viewButton.appendChild(document.createTextNode("View"));
-        const viewUrl = new URL(window.location.protocol + "//" + window.location.host + "/edit-company.html");
-        viewUrl.searchParams.append("id", json[i].id);
-        viewUrl.searchParams.append("companyName", json[i].companyName);
-        viewUrl.searchParams.append("town", json[i].town);
-        viewUrl.searchParams.append("editable", false);
+        const viewUrl = url;
+        viewUrl.searchParams.set("editable", false);
         viewButton.href = viewUrl;
         viewButton.classList.add("btn");
         viewButton.classList.add("btn-outline-dark");
@@ -74,11 +79,8 @@ function getRows(json) {
         const editButton = document.createElement("a");
         editButton.appendChild(document.createTextNode("Edit"));
         editButton.dataset.id = json[i].id;
-        const editUrl = new URL(window.location.protocol + "//" + window.location.host + "/edit-company.html");
-        editUrl.searchParams.append("id", json[i].id);
-        editUrl.searchParams.append("companyName", json[i].companyName);
-        editUrl.searchParams.append("town", json[i].town);
-        editUrl.searchParams.append("editable", true);
+        const editUrl = url;
+        editUrl.searchParams.set("editable", true);
         editButton.href = editUrl;
         editButton.classList.add("btn");
         editButton.classList.add("btn-outline-primary");

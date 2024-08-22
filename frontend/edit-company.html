@@ -41,20 +41,28 @@
                 <h1 id="pageTitle">Edit Company</h1>
                 <hr>
                 <div id="newCompanyForm">
-                    <div class="mb-3" style="margin-top: 30px;">
-                        <label for="companyName" class="form-label"><h5>Company Name</h5></label>
+                    <div class="mb-2" style="margin-top: 30px;">
+                        <label for="companyName" class="form-label mb-0"><h5>Company Name</h5></label>
                         <input class="form-control border border-primary" id="companyName">
                     </div>
-                    <div class="mb-3">
-                        <label for="town" class="form-label"><h5>Town</h5></label>
+                    <div class="mb-2">
+                        <label for="town" class="form-label mb-0"><h5>Town</h5></label>
                         <input class="form-control border border-primary" id="town">
                     </div>
-
-                    <div class="mb-2 form-check" id="checkDiv">
-                        <input type="checkbox" class="form-check-input border border-primary" id="checkSave">
-                        <label class="form-check-label" for="checkSave"><h6>Stay on this page after save</h6></label>
+                    <div class="mb-2">
+                        <label for="address" class="form-label mb-0"><h5>Address</h5></label>
+                        <input class="form-control border border-primary" id="address">
                     </div>
-                    <button type="button" class="btn btn-primary mb-5" style="width: 200px;" id="submitButton">Save</button>
+                    <div class="mb-2">
+                        <label for="telephoneNumber" class="form-label mb-0"><h5>Telephone Number</h5></label>
+                        <input class="form-control border border-primary" id="telephoneNumber" type="tel">
+                    </div>
+                    <div class="mb-4">
+                        <label for="website" class="form-label mb-0"><h5>Website</h5></label>
+                        <input class="form-control border border-primary" id="website" type="url">
+                    </div>
+
+                    <button type="button" class="btn btn-primary mb-4" style="width: 200px;" id="submitButton">Save</button>
 
                     <table class="table table-striped">
                         <tbody id="data-table">
@@ -83,24 +91,14 @@
                                 <th></th>
                                 <th><h5>First Name</h5></th>
                                 <th><h5>Surname</h5></th>
+                                <th><h5>Email</h5></th>
+                                <th><h5>Telephone Number</h5></th>
+                                <th><h5>Date of Birth</h5></th>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
-
-
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div id="successToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
-        <div class="toast-header bg-success">
-            <strong class="me-auto text-white">Success</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            Company data was successfully changed
-        </div>
         </div>
     </div>
 
@@ -110,9 +108,7 @@
             <strong class="me-auto text-white">Incorrect data</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body">
-            Fields cannot be left empty and the characters ' and " cannot be used.
-        </div>
+        <div class="toast-body" id="incorrectToastMessage"></div>
         </div>
     </div>
 

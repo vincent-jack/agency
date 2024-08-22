@@ -38,11 +38,13 @@ def add_company_people():
 
     try:
         cur.execute(
-            f"DELETE FROM CompanyPerson WHERE CompanyId = {company_id}")
+            f"DELETE FROM CompanyPerson WHERE CompanyId = %s",
+            (company_id))
 
         for person_id in person_id_list:
             cur.execute(
-                f"INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES ({company_id}, {person_id})")
+                f"INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES (%s, %s)",
+                (company_id, person_id))
     except Exception as e:
         print(e)
         return f"Error: {e}"

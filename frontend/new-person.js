@@ -1,24 +1,24 @@
-const api_url = "http://127.0.0.1:5000"
+const api_url = "http://127.0.0.1:5000";
 
 const submitButton = document.getElementById('submitButton');
 submitButton.addEventListener('click', async function (e) {
-    const newFirstName = document.getElementById('firstName').value
-    const newSurname = document.getElementById('surname').value
-    const newEmail = document.getElementById('email').value
-    const newTelephoneNumber = document.getElementById('telephoneNumber').value
-    const newDateOfBirth = document.getElementById('dateOfBirth').value
+    const newFirstName = document.getElementById('firstName').value;
+    const newSurname = document.getElementById('surname').value;
+    const newEmail = document.getElementById('email').value;
+    const newTelephoneNumber = document.getElementById('telephoneNumber').value;
+    const newDateOfBirth = document.getElementById('dateOfBirth').value;
 
-    const checkSave = document.getElementById('checkSave')
+    const checkSave = document.getElementById('checkSave');
 
     if (validateForm(newFirstName, newSurname, newEmail, newTelephoneNumber, newDateOfBirth) == false) {
-        return
+        return;
     }
 
-    document.getElementById('firstName').value = ''
-    document.getElementById('surname').value = ''
-    document.getElementById('email').value = ''
-    document.getElementById('telephoneNumber').value = ''
-    document.getElementById('dateOfBirth').value = ''
+    document.getElementById('firstName').value = '';
+    document.getElementById('surname').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('telephoneNumber').value = '';
+    document.getElementById('dateOfBirth').value = '';
 
     const data = JSON.stringify({
         first_name: newFirstName,
@@ -37,8 +37,8 @@ submitButton.addEventListener('click', async function (e) {
         window.location.replace("people.html");
     }
 
-    const successToastEl = document.getElementById('successToast')
-    const successToast = new bootstrap.Toast(successToastEl)
+    const successToastEl = document.getElementById('successToast');
+    const successToast = new bootstrap.Toast(successToastEl);
     successToast.show();
 
 
@@ -48,7 +48,7 @@ submitButton.addEventListener('click', async function (e) {
 function validateForm(firstName, surname, email, telephoneNumber, dateOfBirth) {
     
     let incorrectData = false;
-    const now = new Date
+    const now = new Date;
     const toastMessage = document.getElementById("incorrectToastMessage");
     if (firstName == "" || surname == "" || email == "" || telephoneNumber == "" || dateOfBirth == "") {
         toastMessage.innerHTML = "Fields cannot be left blank.";
