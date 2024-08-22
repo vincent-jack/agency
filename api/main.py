@@ -84,17 +84,21 @@ def delete_company(company_id):
 @app.route("/companies/update/<int:company_id>", methods=["PUT"])
 @cross_origin()
 def update_company(company_id):
-    new_name = request.json['company_name']
-    new_town = request.json['town']
-
+    company_name = request.json['company_name']
+    town = request.json['town']
+    address = request.json['address']
+    telephone_number = request.json['telephone_number']
+    website = request.json['website']
+    employee_count = request.json['employee_count']
     try:
         cur.execute(
-            f"UPDATE Company SET CompanyName = '{new_name}', Town = '{new_town}' WHERE id = {company_id}")
+            "UPDATE Company SET CompanyName = %s, Town = %s, Address = %s, TelephoneNumber = %s, Website = %s, EmployeeCount = %s WHERE id = %s",
+            (company_name, town, address, telephone_number, website, employee_count, company_id))
     except Exception as e:
         print(e)
         return f"Error: {e}"
 
-    return jsonify({"Company": new_name, "Town": new_town})
+    return jsonify({"Company": company_name, "Town": town, "Address": address, "TelephoneNumber": telephone_number, "Website": website, "EmployeeCount": employee_count})
 
 
 if __name__ == "__main__":
