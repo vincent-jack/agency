@@ -42,20 +42,28 @@
                 <h1 id="pageTitle">Edit Person</h1>
                 <hr>
                 <div id="newPersonForm">
-                    <div class="mb-3" style="margin-top: 30px;">
+                    <div class="mb-2" style="margin-top: 30px;">
                         <label for="firstName" class="form-label"><h5>First Name</h5></label>
                         <input class="form-control border border-primary" id="firstName">
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label for="surname" class="form-label"><h5>Surname</h5></label>
                         <input class="form-control border border-primary" id="surname">
                     </div>
-
-                    <div class="mb-2 form-check" id="checkDiv">
-                        <input type="checkbox" class="form-check-input border border-primary" id="checkSave">
-                        <label class="form-check-label" for="checkSave"><h6>Stay on this page after save</h6></label>
+                    <div class="mb-2">
+                        <label for="address" class="form-label mb-0"><h5>Email</h5></label>
+                        <input class="form-control border border-primary" id="email">
                     </div>
-                    <button type="button" class="btn btn-primary mb-5" style="width: 200px;" id="submitButton">Save</button>
+                    <div class="mb-2">
+                        <label for="telephoneNumber" class="form-label mb-0"><h5>Telephone Number</h5></label>
+                        <input class="form-control border border-primary" id="telephoneNumber" type="tel">
+                    </div>
+                    <div class="mb-4">
+                        <label for="website" class="form-label mb-0"><h5>Date of Birth</h5></label>
+                        <input class="form-control border border-primary" id="dateOfBirth" type="date">
+                    </div>
+
+                    <button type="button" class="btn btn-primary mb-4" style="width: 200px;" id="submitButton">Save</button>
 
                     <table class="table table-striped mb-3">
                         <tbody id="data-table">
@@ -75,7 +83,7 @@
                                     Ordering by: Surname
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a id="orderNameButton" class="dropdown-item" onclick="getCompaniesByName()">Order by Company Name</a></li>
+                                    <li><a id="orderCompanyNameButton" class="dropdown-item" onclick="getCompaniesByName()">Order by Company Name</a></li>
                                     <li><a id="orderTownButton" class="dropdown-item" onclick="getCompaniesByTown()">Order by Town</a></li>
                                 </ul>
                             </div>
@@ -84,6 +92,9 @@
                                 <th></th>
                                 <th><h5>Company Name</h5></th>
                                 <th><h5>Town</h5></th>
+                                <th><h5>Address</h5></th>
+                                <th><h5>Telephone Number</h5></th>
+                                <th><h5>Website</h5></th>
                             </tr>
                         </tbody>
                     </table>
@@ -94,26 +105,12 @@
     </div>
 
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div id="successToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
-        <div class="toast-header bg-success">
-            <strong class="me-auto text-white">Success</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            The person's data was successfully changed.
-        </div>
-        </div>
-    </div>
-
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
         <div id="incorrectToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" autohide="true">
         <div class="toast-header bg-danger">
             <strong class="me-auto text-white">Incorrect data</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body">
-            Fields cannot be left empty and the characters ' and " cannot be used.
-        </div>
+        <div class="toast-body" id="incorrectToastMessage"></div>
         </div>
     </div>
 

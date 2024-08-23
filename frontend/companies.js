@@ -6,7 +6,7 @@ async function getCompanies() {
     const response = await fetch(api_url + "/companies");
     const jsonData = await response.json();
     return jsonData;
-}
+};
 
 
 async function getCompaniesByName() {
@@ -14,10 +14,10 @@ async function getCompaniesByName() {
     data.sort(function (a, b) {
         if (a.companyName < b.companyName) {
           return -1;
-        }
+        };
         if (a.companyName > b.companyName) {
           return 1;
-        }
+        };
         return 0;
     });
 
@@ -25,7 +25,7 @@ async function getCompaniesByName() {
     document.getElementById("orderDropdown").innerHTML = "Ordering by: Company Name";
     document.getElementById("orderNameButton").style.display = "none";
     document.getElementById("orderTownButton").style.display = "block";
-}
+};
 
 
 async function getCompaniesByTown() {
@@ -33,10 +33,10 @@ async function getCompaniesByTown() {
     data.sort(function (a, b) {
         if (a.town < b.town) {
           return -1;
-        }
+        };
         if (a.town > b.town) {
           return 1;
-        }
+        };
         return 0;
     });
 
@@ -44,14 +44,14 @@ async function getCompaniesByTown() {
     document.getElementById("orderDropdown").innerHTML = "Ordering by: Town";
     document.getElementById("orderNameButton").style.display = "block";
     document.getElementById("orderTownButton").style.display = "none";
-}
+};
 
 
 function getRows(json) {
     const dataRows = document.getElementsByClassName("data-row");
     while(dataRows.length > 0){
         dataRows[0].parentNode.removeChild(dataRows[0]);
-    }
+    };
 
     const table = document.getElementById("data-table");
     for (let i = 0; i < json.length; i++) {
@@ -116,8 +116,8 @@ function getRows(json) {
         row.appendChild(websiteCol);
         row.appendChild(employeeCol);
         table.appendChild(row);
-        }
-}
+        };
+};
 
 
 async function deleteRow(event) {
@@ -128,6 +128,6 @@ async function deleteRow(event) {
             method: "DELETE"
         });
         location.reload();
-    }
+    };
     
-}
+};

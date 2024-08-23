@@ -1,6 +1,8 @@
 const api_url = "https://api-b3hj.onrender.com"
 
 const submitButton = document.getElementById('submitButton');
+
+
 submitButton.addEventListener('click', async function (e) {
     const newCompanyName = document.getElementById('companyName').value;
     const newTown = document.getElementById('town').value;
@@ -50,7 +52,7 @@ function validateForm(companyName, town, address, telephoneNumber, website) {
           url = new URL(string);
         } catch (_) {
           return false;  
-        }
+        };
         return true;
     };
 
@@ -75,5 +77,5 @@ function validateForm(companyName, town, address, telephoneNumber, website) {
         return false;
     } else {
         return true;
-    }
+    };
 };

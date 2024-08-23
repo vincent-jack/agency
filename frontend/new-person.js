@@ -1,6 +1,8 @@
 const api_url = "https://api-b3hj.onrender.com"
 
 const submitButton = document.getElementById('submitButton');
+
+
 submitButton.addEventListener('click', async function (e) {
     const newFirstName = document.getElementById('firstName').value;
     const newSurname = document.getElementById('surname').value;
@@ -12,7 +14,7 @@ submitButton.addEventListener('click', async function (e) {
 
     if (validateForm(newFirstName, newSurname, newEmail, newTelephoneNumber, newDateOfBirth) == false) {
         return;
-    }
+    };
 
     document.getElementById('firstName').value = '';
     document.getElementById('surname').value = '';
@@ -46,7 +48,6 @@ submitButton.addEventListener('click', async function (e) {
 
 
 function validateForm(firstName, surname, email, telephoneNumber, dateOfBirth) {
-    
     let incorrectData = false;
     const now = new Date;
     const toastMessage = document.getElementById("incorrectToastMessage");
@@ -59,7 +60,7 @@ function validateForm(firstName, surname, email, telephoneNumber, dateOfBirth) {
     } else if (new Date(dateOfBirth) > now) {
         toastMessage.innerHTML = "Date of Birth cannot be in the future.";
         incorrectData = true;
-    }
+    };
     
 
     if (incorrectData == true) {
@@ -69,5 +70,5 @@ function validateForm(firstName, surname, email, telephoneNumber, dateOfBirth) {
         return false;
     } else {
         return true;
-    }
+    };
 };

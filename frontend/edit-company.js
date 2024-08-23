@@ -12,13 +12,13 @@ if (editable == false) {
     document.getElementById('telephoneNumber').disabled = true;
     document.getElementById('website').disabled = true;
 };
-document.getElementById('companyName').value = urlParams.get('companyName');
-document.getElementById('town').value = urlParams.get('town');
-document.getElementById('address').value = urlParams.get('address');
-document.getElementById('telephoneNumber').value = urlParams.get('telephoneNumber');
-document.getElementById('website').value = urlParams.get('website');
-const companyId = urlParams.get('id');
+document.getElementById("companyName").value = urlParams.get('companyName');
+document.getElementById("town").value = urlParams.get('town');
+document.getElementById("address").value = urlParams.get('address');
+document.getElementById("telephoneNumber").value = urlParams.get('telephoneNumber');
+document.getElementById("website").value = urlParams.get('website');
 
+const companyId = urlParams.get('id');
 let companyPeopleIds = [];
 getCompanyPeople();
 getPeopleBySurname();
@@ -41,10 +41,10 @@ async function getPeopleByFirstName() {
     peopleData.sort(function (a, b) {
         if (a.firstName < b.firstName) {
           return -1;
-        }
+        };
         if (a.firstName > b.firstName) {
           return 1;
-        }
+        };
         return 0;
     });
     getRows(peopleData);
@@ -59,10 +59,10 @@ async function getPeopleBySurname() {
     peopleData.sort(function (a, b) {
         if (a.surname < b.surname) {
           return -1;
-        }
+        };
         if (a.surname > b.surname) {
           return 1;
-        }
+        };
         return 0;
     });
     getRows(peopleData);
@@ -114,20 +114,19 @@ function addRow(personData) {
     firstNameCol.appendChild(document.createTextNode(personData.firstName));
     const surnameCol = document.createElement("th");
     surnameCol.appendChild(document.createTextNode(personData.surname));
-    const addressCol = document.createElement("th");
-    addressCol.appendChild(document.createTextNode(personData.email));
+    const emailCol = document.createElement("th");
+    emailCol.appendChild(document.createTextNode(personData.email));
     const telephoneNumberCol = document.createElement("th");
     telephoneNumberCol.appendChild(document.createTextNode(personData.telephoneNumber));
-    const websiteCol = document.createElement("th");
-    websiteCol.appendChild(document.createTextNode(personData.dateOfBirth));
+    const dateOfBirthCol = document.createElement("th");
+    dateOfBirthCol.appendChild(document.createTextNode(personData.dateOfBirth));
 
     row.appendChild(removeCol);
     row.appendChild(firstNameCol);
     row.appendChild(surnameCol);
-    row.appendChild(addressCol);
+    row.appendChild(emailCol);
     row.appendChild(telephoneNumberCol);
-    row.appendChild(websiteCol);
-    
+    row.appendChild(dateOfBirthCol);
     table.appendChild(row);
 };
 
@@ -214,7 +213,6 @@ function validateForm(companyName, town, address, telephoneNumber, website) {
         };
         return true;
     };
-
     
     let incorrectData = false;
     const toastMessage = document.getElementById("incorrectToastMessage");

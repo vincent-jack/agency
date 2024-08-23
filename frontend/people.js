@@ -6,7 +6,7 @@ async function getPeople() {
     const response = await fetch(api_url + "/people");
     const jsonData = await response.json();
     return jsonData;
-}
+};
 
 
 async function getPeopleByFirstName() {
@@ -14,10 +14,10 @@ async function getPeopleByFirstName() {
     data.sort(function (a, b) {
         if (a.firstName < b.firstName) {
           return -1;
-        }
+        };
         if (a.firstName > b.firstName) {
           return 1;
-        }
+        };
         return 0;
     });
 
@@ -25,7 +25,7 @@ async function getPeopleByFirstName() {
     document.getElementById("orderDropdown").innerHTML = "Ordering by: First Name";
     document.getElementById("orderFirstNameButton").style.display = "none";
     document.getElementById("orderSurnameButton").style.display = "block";
-}
+};
 
 
 async function getPeopleBySurname() {
@@ -44,14 +44,14 @@ async function getPeopleBySurname() {
     document.getElementById("orderDropdown").innerHTML = "Ordering by: Surname";
     document.getElementById("orderFirstNameButton").style.display = "block";
     document.getElementById("orderSurnameButton").style.display = "none";
-}
+};
 
 
 async function getRows(json) {
     const dataRows = document.getElementsByClassName("data-row");
     while(dataRows.length > 0){
         dataRows[0].parentNode.removeChild(dataRows[0]);
-    }
+    };
 
     const table = document.getElementById("data-table");
     for (let i = 0; i < json.length; i++) {
@@ -59,13 +59,18 @@ async function getRows(json) {
         row.classList.add("data-row");
         const buttonCol = document.createElement("th");
 
+        const url = new URL(window.location.protocol + "//" + window.location.host + "/edit-person.html");
+        url.searchParams.set("id", json[i].id);
+        url.searchParams.set("firstName", json[i].firstName);
+        url.searchParams.set("surname", json[i].surname);
+        url.searchParams.set("email", json[i].email);
+        url.searchParams.set("telephoneNumber", json[i].telephoneNumber);
+        url.searchParams.set("dateOfBirth", json[i].dateOfBirth);
+
         const viewButton = document.createElement("a");
         viewButton.appendChild(document.createTextNode("View"));
-        const viewUrl = new URL(window.location.protocol + "//" + window.location.host + "/edit-person.html");
-        viewUrl.searchParams.append("id", json[i].id);
-        viewUrl.searchParams.append("firstName", json[i].firstName);
-        viewUrl.searchParams.append("surname", json[i].surname);
-        viewUrl.searchParams.append("editable", false);
+        const viewUrl = url;
+        viewUrl.searchParams.set("editable", false);
         viewButton.href = viewUrl;
         viewButton.classList.add("btn");
         viewButton.classList.add("btn-outline-dark");
@@ -73,12 +78,9 @@ async function getRows(json) {
 
         const editButton = document.createElement("a");
         editButton.appendChild(document.createTextNode("Edit"));
-        const url = new URL(window.location.protocol + "//" + window.location.host + "/edit-person.html");
-        url.searchParams.append("id", json[i].id);
-        url.searchParams.append("firstName", json[i].firstName);
-        url.searchParams.append("surname", json[i].surname);
-        url.searchParams.append("editable", true);
-        editButton.href = url;
+        const editUrl = url;
+        editUrl.searchParams.set("editable", true);
+        editButton.href = editUrl;
         editButton.classList.add("btn");
         editButton.classList.add("btn-outline-primary");
         buttonCol.appendChild(editButton);
@@ -113,9 +115,8 @@ async function getRows(json) {
         row.appendChild(dateOfBirthCol);
         row.appendChild(companyCountCol);
         table.appendChild(row);
-        }
-
-    }
+        };
+    };
 
 
 async function deleteRow(event) {
@@ -126,6 +127,5 @@ async function deleteRow(event) {
             method: "DELETE"
         });
         location.reload();
-    }
-}
-
+    };
+};

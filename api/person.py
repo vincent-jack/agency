@@ -78,13 +78,18 @@ def delete_person(person_id):
 @person_routes.route("/people/update/<int:person_id>", methods=["PUT"])
 @cross_origin()
 def update_person(person_id):
-    new_first_name = request.json['first_name']
-    new_surname = request.json['surname']
+    first_name = request.json['first_name']
+    surname = request.json['surname']
+    email = request.json['email']
+    telephone_number = request.json['telephone_number']
+    date_of_birth = request.json['date_of_birth']
+    company_count = request.json['company_count']
     try:
         cur.execute(
-            f"UPDATE Person SET FirstName = '{new_first_name}', Surname = '{new_surname}' WHERE id = {person_id}")
+            f"UPDATE Person SET FirstName = %s, Surname = %s, Email = %s, TelephoneNumber = %s, DateOfBirth = %s, CompanyCount = %s WHERE id = %s",
+            (first_name, surname, email, telephone_number, date_of_birth, company_count, person_id))
     except Exception as e:
         print(e)
         return f"Error: {e}"
 
-    return jsonify({"FirstName": new_first_name, "Surname": new_surname})
+    return jsonify({"FirstName": first_name, "Surname": surname, "Email": email, "TelephoneNumber": telephone_number, "DateOfBirth": date_of_birth, "CompanyCount": company_count})
