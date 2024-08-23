@@ -98,7 +98,7 @@ def update_company(company_id):
         print(e)
         return f"Error: {e}"
 
-    return jsonify({"Company": company_name, "Town": town, "Address": address, "TelephoneNumber": telephone_number, "Website": website, "EmployeeCount": employee_count})
+    return jsonify({"CompanyName": company_name, "Town": town, "Address": address, "TelephoneNumber": telephone_number, "Website": website, "EmployeeCount": employee_count})
 
 
 if __name__ == "__main__":
