@@ -71,10 +71,28 @@ def create_company():
 def delete_company(company_id):
     try:
         cur.execute(
-            f"DELETE FROM Company WHERE Id = {company_id}")
+            "DELETE FROM Company WHERE Id = %s",
+            (company_id,))
         cur.execute(
-            f"DELETE FROM CompanyPerson WHERE CompanyId = {company_id}"
+            "SELECT PersonId FROM CompanyPerson WHERE CompanyId = %s",
+            (company_id,)
         )
+        person_id_list = [person_id[0] for person_id in cur.fetchall()]
+
+        cur.execute(
+            "DELETE FROM CompanyPerson WHERE CompanyId = %s",
+            (company_id,)
+        )
+
+        for person_id in person_id_list:
+            cur.execute(
+                "SELECT COUNT(*) FROM CompanyPerson WHERE PersonId = %s",
+                (person_id,))
+            person_company_count = cur.fetchone()[0]
+            cur.execute(
+                "UPDATE Person SET CompanyCount = %s WHERE id = %s",
+                (person_company_count, person_id)
+            )
     except Exception as e:
         print(e)
         return f"Error: {e}"
