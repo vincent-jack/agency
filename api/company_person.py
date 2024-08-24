@@ -38,13 +38,24 @@ def add_company_people():
 
     try:
         cur.execute(
-            f"DELETE FROM CompanyPerson WHERE CompanyId = %s",
-            (company_id))
+            "DELETE FROM CompanyPerson WHERE CompanyId = %s",
+            (company_id,))
 
         for person_id in person_id_list:
             cur.execute(
-                f"INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES (%s, %s)",
+                "INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES (%s, %s)",
                 (company_id, person_id))
+
+            cur.execute(
+                "SELECT COUNT(*) FROM CompanyPerson WHERE PersonId = %s",
+                (person_id,))
+
+            person_company_count = cur.fetchone()[0]
+            cur.execute(
+                "UPDATE Person SET CompanyCount = %s WHERE id = %s",
+                (person_company_count, person_id)
+            )
+
     except Exception as e:
         print(e)
         return f"Error: {e}"
@@ -76,7 +87,18 @@ def add_person_companies():
 
         for company_id in company_id_list:
             cur.execute(
-                f"INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES ({company_id}, {person_id})")
+                f"INSERT INTO CompanyPerson (CompanyId, PersonId) VALUES (%s, %s)",
+                (company_id, person_id))
+
+            cur.execute(
+                "SELECT COUNT(*) FROM CompanyPerson WHERE Companyid = %s",
+                (company_id,))
+
+            company_person_count = cur.fetchone()[0]
+            cur.execute(
+                "UPDATE Company SET EmployeeCount = %s WHERE id = %s",
+                (company_person_count, company_id)
+            )
     except Exception as e:
         print(e)
         return f"Error: {e}"
