@@ -21,7 +21,8 @@ company_person_routes = Blueprint('company_person_routes', __name__)
 def get_company_people(company_id):
     try:
         cur.execute(
-            f"SELECT PersonId FROM CompanyPerson WHERE CompanyId = {company_id}")
+            "SELECT PersonId FROM CompanyPerson WHERE CompanyId = %s",
+            (company_id,))
     except Exception as e:
         print(e)
         return f"Error: {e}"
@@ -67,7 +68,8 @@ def add_company_people():
 def get_person_companies(person_id):
     try:
         cur.execute(
-            f"SELECT CompanyId FROM CompanyPerson WHERE PersonId = {person_id}")
+            "SELECT CompanyId FROM CompanyPerson WHERE PersonId = %s",
+            (person_id,))
     except Exception as e:
         print(e)
         return f"Error: {e}"
@@ -83,7 +85,8 @@ def add_person_companies():
 
     try:
         cur.execute(
-            f"DELETE FROM CompanyPerson WHERE PersonId = {person_id}")
+            f"DELETE FROM CompanyPerson WHERE PersonId = %s",
+            (person_id,))
 
         for company_id in company_id_list:
             cur.execute(
