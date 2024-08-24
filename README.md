@@ -15,7 +15,7 @@
   <li>Pages to create a new entry</li>
   <li>Pages to view and edit individual rows</li>
   <li>Delete buttons</li>
-  <li>'Sort by' dropdown buttons.</li>
+  <li>Sort data by column</li>
   <li>Visually appealing sidebar</li>
 </ul>
 
