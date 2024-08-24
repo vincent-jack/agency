@@ -20,8 +20,13 @@ document.getElementById("dateOfBirth").value = urlParams.get('dateOfBirth');
 
 const personId = urlParams.get('id');
 let personCompaniesIds = [];
-getPersonCompanies();
-getCompaniesByName();
+initialisePage();
+
+
+async function initialisePage() {
+    await getPersonCompanies();
+    await getCompaniesByName();
+}
 
 
 async function getPersonCompanies() {

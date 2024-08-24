@@ -20,8 +20,13 @@ document.getElementById("website").value = urlParams.get('website');
 
 const companyId = urlParams.get('id');
 let companyPeopleIds = [];
-getCompanyPeople();
-getPeopleBySurname();
+initialisePage();
+
+
+async function initialisePage() {
+    await getCompanyPeople();
+    await getPeopleBySurname();
+}
 
 
 async function getCompanyPeople() {
