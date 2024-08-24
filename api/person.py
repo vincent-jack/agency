@@ -86,7 +86,7 @@ def update_person(person_id):
     company_count = request.json['company_count']
     try:
         cur.execute(
-            f"UPDATE Person SET FirstName = %s, Surname = %s, Email = %s, TelephoneNumber = %s, DateOfBirth = %s, CompanyCount = %s WHERE id = %s",
+            "UPDATE Person SET FirstName = %s, Surname = %s, Email = %s, TelephoneNumber = %s, DateOfBirth = %s, CompanyCount = %s WHERE id = %s",
             (first_name, surname, email, telephone_number, date_of_birth, company_count, person_id))
     except Exception as e:
         print(e)
