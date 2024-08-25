@@ -1,4 +1,5 @@
 const api_url = "https://api-b3hj.onrender.com"
+const host = "https://agency-wtwz.onrender.com"
 getPeopleBySurname();
 
 
@@ -59,7 +60,7 @@ async function getRows(json) {
         row.classList.add("data-row");
         const buttonCol = document.createElement("th");
 
-        const url = new URL(window.location.protocol + "//" + window.location.host + "/edit-person.html");
+        const url = new URL(host + "/edit-person.html");
         url.searchParams.set("id", json[i].id);
         url.searchParams.set("firstName", json[i].firstName);
         url.searchParams.set("surname", json[i].surname);

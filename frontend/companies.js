@@ -1,4 +1,6 @@
 const api_url = "https://api-b3hj.onrender.com"
+const host = "https://agency-wtwz.onrender.com"
+
 getCompaniesByName();
 
 
@@ -59,7 +61,7 @@ function getRows(json) {
         row.classList.add("data-row");
         const buttonCol = document.createElement("th");
 
-        const url = new URL(window.location.protocol + "//" + window.location.host + "/edit-company.html");
+        const url = new URL(host + "/edit-company.html");
         url.searchParams.set("id", json[i].id);
         url.searchParams.set("companyName", json[i].companyName);
         url.searchParams.set("town", json[i].town);
