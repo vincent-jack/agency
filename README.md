@@ -6,6 +6,8 @@
   Access the project here: https://agency-wtwz.onrender.com
 </p>
 
+<h2>Please note: The live website may take about a minute to show the data as it is running on a free hosting service.</h2>
+
 <h3>Features</h3>
 <ul>
   <li>Responsive design</li>
